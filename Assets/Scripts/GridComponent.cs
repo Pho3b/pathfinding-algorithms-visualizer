@@ -7,7 +7,7 @@ public class GridComponent : MonoBehaviour
     [SerializeField] private Camera _camera;
     [SerializeField] private byte width = 16;
     [SerializeField] private byte height = 9;
-    private Tile[,] graph;
+    public Tile[,] graph;
 
 
     private void Awake()
@@ -20,7 +20,7 @@ public class GridComponent : MonoBehaviour
     private void Start()
     {
         CreateGrid();
-        // Print2DArray(graph);
+        ColorRandomVertices();
     }
 
     private void CreateGrid()
@@ -43,6 +43,14 @@ public class GridComponent : MonoBehaviour
                 isOffset = !isOffset;
             }
         }
+    }
+
+    private void ColorRandomVertices()
+    {
+        var rand = new System.Random();
+
+        graph[rand.Next(height), rand.Next(width)].Highligh();
+        graph[rand.Next(height), rand.Next(width)].Highligh();
     }
 
     public static void Print2DArray<T>(T[,] matrix)

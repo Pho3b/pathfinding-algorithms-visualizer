@@ -15,6 +15,11 @@ public class Tile : MonoBehaviour
         _renderer.color = _assignedColor;
     }
 
+    public void Highligh()
+    {
+        _renderer.color = _highlightColor;
+    }
+
     private void OnMouseDown()
     {
         _renderer.color = _highlightColor;
