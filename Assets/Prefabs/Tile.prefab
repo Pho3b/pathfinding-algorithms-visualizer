@@ -99,7 +99,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _baseColor: {r: 0.29791433, g: 0.509434, b: 0.1994482, a: 1}
   _offsetColor: {r: 0.5051525, g: 0.8207547, b: 0.36004803, a: 1}
-  _highlightColor: {r: 0.5530074, g: 0.8867924, b: 0.40574938, a: 0.5803922}
+  _highlightColor: {r: 0.71352994, g: 0.9716981, b: 0.64627093, a: 0.94509804}
   _renderer: {fileID: 4382499851675112250}
 --- !u!61 &6085064053548338947
 BoxCollider2D:

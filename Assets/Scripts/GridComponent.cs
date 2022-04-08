@@ -7,22 +7,24 @@ public class GridComponent : MonoBehaviour
     [SerializeField] private Camera _camera;
     [SerializeField] private byte width = 16;
     [SerializeField] private byte height = 9;
+    private Tile[,] graph;
 
 
     private void Awake()
     {
         _camera = _camera ?? Camera.main;
         _camera.transform.position += new Vector3(width / 2, height / 2, -10);
+        graph = new Tile[height, width];
     }
 
     private void Start()
     {
         CreateGrid();
+        // Print2DArray(graph);
     }
 
     private void CreateGrid()
     {
-        byte name = 0;
         bool isOffset = true;
 
         for (int x = 0; x < width; x++)
@@ -36,9 +38,23 @@ public class GridComponent : MonoBehaviour
                 spawnedTile.transform.SetParent(transform);
                 spawnedTile.InitColor(isOffset);
 
+                graph[y, x] = spawnedTile;
+
                 isOffset = !isOffset;
-                name++;
             }
+        }
+    }
+
+    public static void Print2DArray<T>(T[,] matrix)
+    {
+        for (int x = 0; x < matrix.GetLength(1); x++)
+        {
+            for (int y = 0; y < matrix.GetLength(0); y++)
+            {
+                Debug.Log(matrix[y, x] + "\t");
+            }
+
+            Debug.Log("\n");
         }
     }
 }

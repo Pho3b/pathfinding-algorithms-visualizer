@@ -15,13 +15,24 @@ public class Tile : MonoBehaviour
         _renderer.color = _assignedColor;
     }
 
-    private void OnMouseEnter()
+    private void OnMouseDown()
     {
         _renderer.color = _highlightColor;
+        Debug.Log(name);
+    }
+
+    private void OnMouseUp()
+    {
+        _renderer.color = _assignedColor;
+    }
+
+    private void OnMouseEnter()
+    {
+        // _renderer.color = _highlightColor;
     }
 
     private void OnMouseExit()
     {
-        _renderer.color = _assignedColor;
+        // _renderer.color = _assignedColor;
     }
 }

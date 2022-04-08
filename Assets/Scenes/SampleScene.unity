@@ -238,7 +238,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tile: {fileID: 8374427071141142138, guid: 5e868f16beb77ce43830a819a8f2716f, type: 3}
   _camera: {fileID: 519420031}
-  width: 16
+  width: 11
   height: 9
 --- !u!4 &1950245276
 Transform:
