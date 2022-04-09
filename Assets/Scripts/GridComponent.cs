@@ -27,9 +27,9 @@ public class GridComponent : MonoBehaviour
     {
         bool isOffset = true;
 
-        for (int x = 0; x < width; x++)
+        for (byte x = 0; x < width; x++)
         {
-            for (int y = 0; y < height; y++)
+            for (byte y = 0; y < height; y++)
             {
                 Vector3 worldPosition = new Vector3(x, y, 0);
                 Tile spawnedTile = Instantiate(tile, worldPosition, Quaternion.identity);
@@ -37,6 +37,8 @@ public class GridComponent : MonoBehaviour
                 spawnedTile.name = $"Tile {x} {y}";
                 spawnedTile.transform.SetParent(transform);
                 spawnedTile.InitColor(isOffset);
+                spawnedTile.x = x;
+                spawnedTile.y = y;
 
                 graph[y, x] = spawnedTile;
 
@@ -49,8 +51,8 @@ public class GridComponent : MonoBehaviour
     {
         var rand = new System.Random();
 
-        graph[rand.Next(height), rand.Next(width)].Highligh();
-        graph[rand.Next(height), rand.Next(width)].Highligh();
+        graph[rand.Next(height), rand.Next(width)].Visit();
+        graph[rand.Next(height), rand.Next(width)].Visit();
     }
 
     public static void Print2DArray<T>(T[,] matrix)
