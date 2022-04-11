@@ -25,5 +25,7 @@ public class Constant
         colorsDictionary.Add(Tile.TileColor.Offset, new Color(0.1927287f, 0.6698113f, 0.3887901f));
         colorsDictionary.Add(Tile.TileColor.Visited, new Color(8962264f, 0.8135083f, 0.03804733f));
         colorsDictionary.Add(Tile.TileColor.Found, new Color(0f, 1f, 0f));
+        colorsDictionary.Add(Tile.TileColor.ToVisit, new Color(1f, 1f, 1f));
+
     }
 }

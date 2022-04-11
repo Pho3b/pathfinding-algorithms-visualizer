@@ -9,6 +9,7 @@
         Base,
         Offset,
         Visited,
-        Found
+        Found,
+        ToVisit,
     }
 }

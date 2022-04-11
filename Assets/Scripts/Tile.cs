@@ -5,7 +5,8 @@ public partial class Tile : MonoBehaviour
     [SerializeField] private SpriteRenderer spriteRenderer;
     private Color currentColor;
     private Constant constant;
-    public int x, y;
+    public bool visited = false;
+    public int x, y, id;
 
 
     private void Awake()
@@ -17,13 +18,24 @@ public partial class Tile : MonoBehaviour
     public void InitColor(bool isOffset)
     {
         currentColor = isOffset ? constant.colorsDictionary[TileColor.Offset] : constant.colorsDictionary[TileColor.Base];
-
         spriteRenderer.color = currentColor;
     }
 
     public void Visit()
     {
         spriteRenderer.color = constant.colorsDictionary[TileColor.Visited];
+        visited = true;
+    }
+
+    public void ToVisit()
+    {
+        visited = true;
+        spriteRenderer.color = constant.colorsDictionary[TileColor.ToVisit];
+    }
+
+    public void Found()
+    {
+        spriteRenderer.color = constant.colorsDictionary[TileColor.Found];
     }
 
     private void OnMouseDown()

@@ -3,29 +3,32 @@
 public class GridComponent : MonoBehaviour
 {
     public Tile tile;
+    public Tile[,] tilesMatrix;
 
     [SerializeField] private Camera _camera;
-    [SerializeField] private byte width = 16;
-    [SerializeField] private byte height = 9;
-    public Tile[,] graph;
+    [SerializeField] private byte width;
+    [SerializeField] private byte height;
+    private GraphComponent graphComponent;
+
 
 
     private void Awake()
     {
         _camera = _camera ?? Camera.main;
         _camera.transform.position += new Vector3(width / 2, height / 2, -10);
-        graph = new Tile[height, width];
+        tilesMatrix = new Tile[width, height];
+        CreateGrid();
     }
 
     private void Start()
     {
-        CreateGrid();
-        ColorRandomVertices();
+        graphComponent = new GraphComponent(ref tilesMatrix);
+        StartCoroutine(graphComponent.BreadthFirstSearch(tilesMatrix[5, 7]));
     }
 
     private void CreateGrid()
     {
-        bool isOffset = true;
+        int id = 0;
 
         for (byte x = 0; x < width; x++)
         {
@@ -36,35 +39,14 @@ public class GridComponent : MonoBehaviour
 
                 spawnedTile.name = $"Tile {x} {y}";
                 spawnedTile.transform.SetParent(transform);
-                spawnedTile.InitColor(isOffset);
+                spawnedTile.InitColor((x + y) % 2 == 1);
                 spawnedTile.x = x;
                 spawnedTile.y = y;
+                spawnedTile.id = id;
 
-                graph[y, x] = spawnedTile;
-
-                isOffset = !isOffset;
+                tilesMatrix[x, y] = spawnedTile;
+                id++;
             }
-        }
-    }
-
-    private void ColorRandomVertices()
-    {
-        var rand = new System.Random();
-
-        graph[rand.Next(height), rand.Next(width)].Visit();
-        graph[rand.Next(height), rand.Next(width)].Visit();
-    }
-
-    public static void Print2DArray<T>(T[,] matrix)
-    {
-        for (int x = 0; x < matrix.GetLength(1); x++)
-        {
-            for (int y = 0; y < matrix.GetLength(0); y++)
-            {
-                Debug.Log(matrix[y, x] + "\t");
-            }
-
-            Debug.Log("\n");
         }
     }
 }
