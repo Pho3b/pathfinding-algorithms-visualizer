@@ -14,14 +14,13 @@ public partial class Tile : MonoBehaviour
         constant = new Constant();
     }
 
-
     public void InitColor(bool isOffset)
     {
         currentColor = isOffset ? constant.colorsDictionary[TileColor.Offset] : constant.colorsDictionary[TileColor.Base];
         spriteRenderer.color = currentColor;
     }
 
-    public void Visit()
+    public void Visited()
     {
         spriteRenderer.color = constant.colorsDictionary[TileColor.Visited];
         visited = true;

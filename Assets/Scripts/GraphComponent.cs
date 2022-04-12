@@ -1,20 +1,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GraphComponent
+public class GraphComponent : MonoBehaviour
 {
-    Tile[,] matrix;
+    [SerializeField] private GridComponent gridComponent;
+    private Tile[,] matrix;
+    private short[] rd = new short[4] { -1, +1, 0, 0 };
+    private short[] cd = new short[4] { 0, 0, -1, +1 };
 
 
     /// <summary>
-    /// Default constructor with given matrix
+    /// Default Awake (Constructor)
     /// </summary>
-    /// <param name="matrix">The graph matrix the algorithms will be applied on</param>
-    public GraphComponent(ref Tile[,] matrix)
+    /// <param name="matrix">The graph matrix that the algorithms will be applied on</param>
+    private void Awake()
     {
-        this.matrix = matrix;
+        matrix = gridComponent.tilesMatrix;
     }
-
 
 
     /// <summary>
@@ -26,41 +28,44 @@ public class GraphComponent
     /// <returns></returns>
     public IEnumerator<WaitForSeconds> BreadthFirstSearch(Tile from, Tile to = null)
     {
-        WaitForSeconds wfs = new WaitForSeconds(0.06f);
+        WaitForSeconds wfs = new WaitForSeconds(0.1f);
         Stack<Tile> stack = new Stack<Tile>();
         stack.Push(from);
 
         while (stack.Count > 0)
         {
             Tile t = stack.Pop();
-            t.Visit();
+            t.Visited();
 
             yield return wfs;
 
-            if (t.x > 0 && matrix[t.x - 1, t.y].visited == false)
+            StartCoroutine(ParseNeighborhood(from, stack, wfs));
+            print(stack.Count);
+        }
+    }
+
+    private IEnumerator<WaitForSeconds> ParseNeighborhood(Tile tile, Stack<Tile> stack, WaitForSeconds wfs)
+    {
+        for (byte i = 0; i < 4; i++)
+        {
+            int row = tile.x + rd[i];
+            int column = tile.y + cd[i];
+
+            if (
+                row < 0
+                || row > matrix.GetLength(0)
+                || column < 0
+                || column > matrix.GetLength(1)
+                || matrix[row, column].visited
+            )
             {
-                AddToVisit(matrix[t.x - 1, t.y], stack);
-                yield return wfs;
+                continue;
             }
 
-            if (t.y > 0 && matrix[t.x, t.y - 1].visited == false)
-            {
-                AddToVisit(matrix[t.x, t.y - 1], stack);
-                yield return wfs;
-            }
+            stack.Push(matrix[row, column]);
+            matrix[row, column].ToVisit();
 
-            if (t.x < matrix.GetLength(0) - 1 && matrix[t.x + 1, t.y].visited == false)
-            {
-                AddToVisit(matrix[t.x + 1, t.y], stack);
-                yield return wfs;
-            }
-
-            if (t.y < matrix.GetLength(1) - 1 && matrix[t.x, t.y + 1].visited == false)
-            {
-                AddToVisit(matrix[t.x, t.y + 1], stack);
-                yield return wfs;
-            }
-
+            yield return wfs;
         }
     }
 

@@ -177,7 +177,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 7
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -217,6 +217,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1950245276}
   - component: {fileID: 1950245275}
+  - component: {fileID: 1950245277}
   m_Layer: 0
   m_Name: GridComponent
   m_TagString: Untagged
@@ -238,8 +239,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tile: {fileID: 8374427071141142138, guid: 5e868f16beb77ce43830a819a8f2716f, type: 3}
   _camera: {fileID: 519420031}
-  width: 9
-  height: 11
+  width: 20
+  height: 13
+  graphComponent: {fileID: 1950245277}
 --- !u!4 &1950245276
 Transform:
   m_ObjectHideFlags: 0
@@ -254,3 +256,16 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1950245277
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1950245274}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80b83fdefdc4da7488d00c51ff2368a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gridComponent: {fileID: 1950245275}

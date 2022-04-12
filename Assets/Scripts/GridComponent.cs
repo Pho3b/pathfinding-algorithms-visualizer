@@ -8,7 +8,7 @@ public class GridComponent : MonoBehaviour
     [SerializeField] private Camera _camera;
     [SerializeField] private byte width;
     [SerializeField] private byte height;
-    private GraphComponent graphComponent;
+    [SerializeField] private GraphComponent graphComponent;
 
 
 
@@ -22,7 +22,6 @@ public class GridComponent : MonoBehaviour
 
     private void Start()
     {
-        graphComponent = new GraphComponent(ref tilesMatrix);
         StartCoroutine(graphComponent.BreadthFirstSearch(tilesMatrix[5, 7]));
     }
 
