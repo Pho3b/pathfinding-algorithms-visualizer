@@ -4,41 +4,32 @@ using UnityEngine;
 public class GraphComponent : MonoBehaviour
 {
     [SerializeField] private GridComponent gridComponent;
-    private readonly WaitForSeconds wfs = new WaitForSeconds(0.02f);
+
+    private readonly WaitForSeconds wfs = new WaitForSeconds(0.04f);
     private short[] rd = new short[4] { -1, +1, 0, 0 };
     private short[] cd = new short[4] { 0, 0, -1, +1 };
+    private bool found = false;
     private Tile[,] matrix;
 
 
-    /// <summary>
-    /// Default Awake (Constructor)
-    /// </summary>
-    /// <param name="matrix">The graph matrix that the algorithms will be applied on</param>
     private void Awake()
     {
         matrix = gridComponent.tilesMatrix;
     }
 
-
     /// <summary>
-    /// Performs a BreadthFirstSearch on the given matrix(graph)
+    /// Performs a DepthFirstSearch on the given matrix(graph)
     /// If the 'to' vertex is given, the search will stop as soon as it will find it
     /// </summary>
     /// <param name="from">Starting vertex of the search</param>
     /// <param name="to">Ending vertex of the search</param>
     /// <returns></returns>
-    public IEnumerator<WaitForSeconds> BreadthFirstSearch(Tile from, Tile to = null)
+    public IEnumerator<WaitForSeconds> DepthFirstSearch(Tile from, Tile to = null)
     {
-        if (from.id == to.id)
-        {
-            from.Found();
-            yield return null;
-        }
-
         Stack<Tile> stack = new Stack<Tile>();
         stack.Push(from);
 
-        while (stack.Count > 0)
+        while (stack.Count > 0 && !found)
         {
             Tile tile = stack.Pop();
             tile.Visited();
@@ -49,21 +40,27 @@ public class GraphComponent : MonoBehaviour
         }
     }
 
+    public IEnumerator<WaitForSeconds> BreadthFirstSearch(Tile from, Tile to = null)
+    {
+        yield return wfs;
+    }
+
     /// <summary>
     /// Cycles over the 4 possibile grid directions and adds the valid tiles to the stack to visit them later.
     /// </summary>
     /// <param name="from">The starting tile(vertex)</param>
     /// <param name="stack">The stack where the Tiles that needs to be visited are stored</param>
-    /// <returns>The current instance waitForSeconds when a tile is added to the stack</returns>
+    /// <returns>The current instance 'wfs' attribute when a tile is added to the stack</returns>
     private IEnumerator<WaitForSeconds> AddAdjacentTiles(Tile from, Tile to, Stack<Tile> stack)
     {
         for (byte i = 0; i < 4; i++)
         {
             Tile currentTile = RetrieveAdjacentTile(from.x + rd[i], from.y + cd[i]);
 
-            if (to != null && currentTile != null && currentTile.id == to.id)
+            if (to != null && currentTile != null && (currentTile.id == to.id || to.id == from.id))
             {
                 from.Found();
+                found = true;
                 break;
             }
             else if (currentTile != null)
@@ -77,7 +74,7 @@ public class GraphComponent : MonoBehaviour
     }
 
     /// <summary>
-    /// Returns a tile if it is a valid one, if it's not, NULL is returned.
+    /// Returns a tile if it is a valid one, if it's not, NULL is returned instead.
     /// </summary>
     /// <param name="row">The X axis of the Tile that tries to retrieve</param>
     /// <param name="column">The Y axis of the Tile that tries to retrieve</param>
@@ -98,5 +95,4 @@ public class GraphComponent : MonoBehaviour
 
         return matrix[row, column];
     }
-
 }

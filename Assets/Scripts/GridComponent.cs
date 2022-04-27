@@ -22,10 +22,10 @@ public class GridComponent : MonoBehaviour
 
     private void Start()
     {
-        Tile from = tilesMatrix[5, 7];
-        Tile to = tilesMatrix[10, 2];
+        Tile from = tilesMatrix[1, 7];
+        Tile to = tilesMatrix[10, 9];
 
-        StartCoroutine(graphComponent.BreadthFirstSearch(from, to));
+        StartCoroutine(graphComponent.DepthFirstSearch(from, to));
     }
 
     private void CreateGrid()
