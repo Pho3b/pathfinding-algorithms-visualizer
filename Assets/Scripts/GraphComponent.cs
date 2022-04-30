@@ -32,7 +32,7 @@ public class GraphComponent : MonoBehaviour
         while (stack.Count > 0 && !found)
         {
             Tile tile = stack.Pop();
-            tile.Visited();
+            tile.SetState(Tile.TileState.Visited);
 
             yield return wfs;
 
@@ -59,13 +59,13 @@ public class GraphComponent : MonoBehaviour
 
             if (to != null && currentTile != null && (currentTile.id == to.id || to.id == from.id))
             {
-                from.Found();
+                from.SetState(Tile.TileState.Found);
                 found = true;
                 break;
             }
             else if (currentTile != null)
             {
-                currentTile.ToVisit();
+                currentTile.SetState(Tile.TileState.ToVisit);
                 stack.Push(currentTile);
 
                 yield return wfs;

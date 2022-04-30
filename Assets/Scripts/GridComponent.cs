@@ -2,30 +2,32 @@
 
 public class GridComponent : MonoBehaviour
 {
-    public Tile tile;
+    public Tile tilePrefab;
     public Tile[,] tilesMatrix;
 
     [SerializeField] private Camera _camera;
     [SerializeField] private byte width;
     [SerializeField] private byte height;
     [SerializeField] private GraphComponent graphComponent;
+    private Tile startingTile, endingTile;
 
 
 
     private void Awake()
     {
         _camera = _camera ?? Camera.main;
-        _camera.transform.position += new Vector3(width / 2, height / 2, -10);
+        _camera.transform.position += new Vector3(width / 2, (height / 2) - 1, -10);
+        _camera.orthographicSize = 8;
         tilesMatrix = new Tile[width, height];
         CreateGrid();
     }
 
     private void Start()
     {
-        Tile from = tilesMatrix[1, 7];
-        Tile to = tilesMatrix[10, 9];
+        //Tile from = tilesMatrix[1, 7];
+        //Tile to = tilesMatrix[10, 9];
 
-        StartCoroutine(graphComponent.DepthFirstSearch(from, to));
+        //StartCoroutine(graphComponent.DepthFirstSearch(from, to));
     }
 
     private void CreateGrid()
@@ -37,7 +39,7 @@ public class GridComponent : MonoBehaviour
             for (byte y = 0; y < height; y++)
             {
                 Vector3 worldPosition = new Vector3(x, y, 0);
-                Tile spawnedTile = Instantiate(tile, worldPosition, Quaternion.identity);
+                Tile spawnedTile = Instantiate(tilePrefab, worldPosition, Quaternion.identity);
 
                 spawnedTile.name = $"Tile {x} {y}";
                 spawnedTile.transform.SetParent(transform);

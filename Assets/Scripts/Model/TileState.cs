@@ -1,15 +1,15 @@
 ﻿public partial class Tile
 {
     /// <summary>
-    /// Enumerator representing an eloquent reference to the basic
-    /// Tile colors list
+    /// Enumerator representing an eloquent reference to the basic possible Tile states.
     /// </summary>
-    public enum TileColor
+    public enum TileState
     {
         Base,
         Offset,
         Visited,
         Found,
         ToVisit,
+        ToSearch,
     }
 }
