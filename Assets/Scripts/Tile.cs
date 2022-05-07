@@ -12,7 +12,7 @@ public partial class Tile : MonoBehaviour
 
 
     /// <summary>
-    /// Unity Awake Method
+    /// Default Unity Awake
     /// </summary>
     private void Awake()
     {
@@ -32,7 +32,7 @@ public partial class Tile : MonoBehaviour
                 : constant.colorsDictionary[TileState.Base];
 
             gridComponent.StartingTile = (gridComponent.StartingTile != null && gridComponent.StartingTile.id == id)
-                ? null 
+                ? null
                 : this;
         }
 
@@ -58,5 +58,7 @@ public partial class Tile : MonoBehaviour
 
         if (state == TileState.Visited || state == TileState.ToVisit)
             visited = true;
+        else
+            visited = false;
     }
 }

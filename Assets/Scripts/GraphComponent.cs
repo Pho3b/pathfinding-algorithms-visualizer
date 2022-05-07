@@ -3,15 +3,18 @@ using UnityEngine;
 
 public class GraphComponent : MonoBehaviour
 {
-    private GridComponent gridComponent;
+    public static bool found, isAlgorithmRunning = false;
 
     private readonly WaitForSeconds wfs = new WaitForSeconds(0.04f);
-    private short[] rd = new short[4] { -1, +1, 0, 0 };
-    private short[] cd = new short[4] { 0, 0, -1, +1 };
-    private bool found = false;
+    private readonly short[] rd = new short[4] { -1, +1, 0, 0 };
+    private readonly short[] cd = new short[4] { 0, 0, -1, +1 };
+    private GridComponent gridComponent;
     private Tile[,] matrix;
 
 
+    /// <summary>
+    /// Default Unity Awake
+    /// </summary>
     private void Awake()
     {
         gridComponent = GridComponent.instance;
@@ -27,6 +30,8 @@ public class GraphComponent : MonoBehaviour
     /// <returns></returns>
     public IEnumerator<WaitForSeconds> DepthFirstSearch(Tile from, Tile to = null)
     {
+        isAlgorithmRunning = true;
+
         Stack<Tile> stack = new Stack<Tile>();
         stack.Push(from);
 
@@ -39,6 +44,8 @@ public class GraphComponent : MonoBehaviour
 
             StartCoroutine(AddAdjacentTiles(tile, to, stack));
         }
+
+        isAlgorithmRunning = false;
     }
 
     public IEnumerator<WaitForSeconds> BreadthFirstSearch(Tile from, Tile to = null)
@@ -69,7 +76,7 @@ public class GraphComponent : MonoBehaviour
 
             if (to != null && currentTile != null && (currentTile.id == to.id || to.id == from.id))
             {
-                from.SetState(Tile.TileState.Found);
+                to.SetState(Tile.TileState.Found);
                 found = true;
                 break;
             }

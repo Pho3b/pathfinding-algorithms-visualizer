@@ -4,6 +4,7 @@ public class ButtonActions : MonoBehaviour
 {
     private GridComponent gridComponent;
 
+
     private void Awake()
     {
         gridComponent = GridComponent.instance;
@@ -11,11 +12,13 @@ public class ButtonActions : MonoBehaviour
 
     public void ResetButtonOnClick()
     {
-        gridComponent.Reset();
+        if (!GraphComponent.isAlgorithmRunning)
+            gridComponent.ResetGrid();
     }
 
     public void StartDepthFirstSearch()
     {
-        gridComponent.StartDFS();
+        if (!GraphComponent.isAlgorithmRunning)
+            gridComponent.StartDFS();
     }
 }
