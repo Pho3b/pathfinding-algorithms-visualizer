@@ -22,7 +22,6 @@ public class Constant
     {
         colorsDictionary = new Dictionary<Tile.TileState, Color>(4);
         colorsDictionary.Add(Tile.TileState.Base, new Color(0.4295123f, 0.7169812f, 0.5501319f));
-        colorsDictionary.Add(Tile.TileState.Offset, new Color(0.1927287f, 0.6698113f, 0.3887901f));
         colorsDictionary.Add(Tile.TileState.Visited, new Color(8962264f, 0.8135083f, 0.03804733f));
         colorsDictionary.Add(Tile.TileState.Found, new Color(0f, 1f, 0f));
         colorsDictionary.Add(Tile.TileState.ToVisit, new Color(1f, 1f, 1f));

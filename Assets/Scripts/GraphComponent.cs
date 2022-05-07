@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class GraphComponent : MonoBehaviour
 {
-    [SerializeField] private GridComponent gridComponent;
+    private GridComponent gridComponent;
 
     private readonly WaitForSeconds wfs = new WaitForSeconds(0.04f);
     private short[] rd = new short[4] { -1, +1, 0, 0 };
@@ -14,6 +14,7 @@ public class GraphComponent : MonoBehaviour
 
     private void Awake()
     {
+        gridComponent = GridComponent.instance;
         matrix = gridComponent.tilesMatrix;
     }
 
@@ -43,6 +44,15 @@ public class GraphComponent : MonoBehaviour
     public IEnumerator<WaitForSeconds> BreadthFirstSearch(Tile from, Tile to = null)
     {
         yield return wfs;
+    }
+
+    /// <summary>
+    /// Getter and Setter for the 'matrix' attribute
+    /// </summary>
+    public Tile[,] Matrix
+    {
+        private get { return matrix; }
+        set { matrix = value; }
     }
 
     /// <summary>

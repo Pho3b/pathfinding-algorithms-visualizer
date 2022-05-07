@@ -3,11 +3,12 @@ using UnityEngine.UIElements;
 
 public partial class Tile : MonoBehaviour
 {
-    [SerializeField] private SpriteRenderer spriteRenderer;
-    private Color initialColor;
-    private Constant constant;
     public bool visited = false;
     public int x, y, id;
+
+    [SerializeField] private SpriteRenderer spriteRenderer;
+    private Constant constant;
+    private GridComponent gridComponent;
 
 
     /// <summary>
@@ -15,6 +16,7 @@ public partial class Tile : MonoBehaviour
     /// </summary>
     private void Awake()
     {
+        gridComponent = GridComponent.instance;
         constant = new Constant();
     }
 
@@ -27,25 +29,23 @@ public partial class Tile : MonoBehaviour
         {
             spriteRenderer.color = spriteRenderer.color != constant.colorsDictionary[TileState.Found]
                 ? constant.colorsDictionary[TileState.Found]
-                : initialColor;
+                : constant.colorsDictionary[TileState.Base];
+
+            gridComponent.StartingTile = (gridComponent.StartingTile != null && gridComponent.StartingTile.id == id)
+                ? null 
+                : this;
         }
 
         if (Input.GetMouseButtonDown((int)MouseButton.RightMouse))
         {
             spriteRenderer.color = spriteRenderer.color != constant.colorsDictionary[TileState.ToSearch]
                 ? constant.colorsDictionary[TileState.ToSearch]
-                : initialColor;
-        }
-    }
+                : constant.colorsDictionary[TileState.Base];
 
-    /// <summary>
-    /// Inizialize the 'initialColor' attribute deciding the color based on the given 'isOffset' boolean
-    /// </summary>
-    /// <param name="isOffset">Boolean that decides whethe the Tile color will be the 'base' or the 'offset' one</param>
-    public void InitColor(bool isOffset)
-    {
-        initialColor = isOffset ? constant.colorsDictionary[TileState.Offset] : constant.colorsDictionary[TileState.Base];
-        spriteRenderer.color = initialColor;
+            gridComponent.EndingTile = (gridComponent.EndingTile != null && gridComponent.EndingTile.id == id)
+                ? null
+                : this;
+        }
     }
 
     /// <summary>

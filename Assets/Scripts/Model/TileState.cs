@@ -6,7 +6,6 @@
     public enum TileState
     {
         Base,
-        Offset,
         Visited,
         Found,
         ToVisit,
