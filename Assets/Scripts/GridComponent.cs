@@ -4,7 +4,6 @@ public class GridComponent : MonoBehaviour
 {
     public static GridComponent instance { get; private set; }
     public Tile tilePrefab;
-    public Tile[,] tilesMatrix;
 
     [SerializeField] private Camera _camera;
     [SerializeField] private byte width, height;
@@ -19,31 +18,29 @@ public class GridComponent : MonoBehaviour
     {
         instance = this;
 
-        // camera settings
+        // setting up camera position
         _camera = _camera ?? Camera.main;
-        _camera.transform.position += new Vector3(width / 2, (height / 2) - 1, -10);
+        _camera.transform.position += new Vector3(graphComponent.width / 2, (graphComponent.height / 2) - 1, -10);
         _camera.orthographicSize = 8;
+    }
 
-        tilesMatrix = new Tile[width, height];
+    /// <summary>
+    /// Default Unity Start
+    /// </summary>
+    private void Start()
+    {
         GenerateGrid();
     }
 
     /// <summary>
-    /// Resets the UI grid and the underlying 'tilesMatrix' data structure
+    /// Resets the UI grid and triggers the method to also rest the underlying 'matrix' data structure
     /// </summary>
     public void ResetGrid()
     {
         StartingTile = null;
         EndingTile = null;
-        GraphComponent.found = false;
 
-        for (byte x = 0; x < width; x++)
-        {
-            for (byte y = 0; y < height; y++)
-            {
-                tilesMatrix[x, y].SetState(Tile.TileState.Base);
-            }
-        }
+        graphComponent.Reset();
     }
 
     /// <summary>
@@ -92,7 +89,7 @@ public class GridComponent : MonoBehaviour
     }
 
     /// <summary>
-    /// Generates a fresh new UI grid and populates the instance attribute 'tilesMatrix' with its newly
+    /// Generates a fresh new UI grid and populates the graphComponent's attribute 'matrix' with the newly
     /// instantiated Tiles.
     /// </summary>
     private void GenerateGrid()
@@ -113,7 +110,7 @@ public class GridComponent : MonoBehaviour
                 spawnedTile.y = y;
                 spawnedTile.id = id;
 
-                tilesMatrix[x, y] = spawnedTile;
+                graphComponent.matrix[x, y] = spawnedTile;
                 id++;
             }
 

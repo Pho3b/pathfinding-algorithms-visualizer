@@ -10,5 +10,6 @@
         Found,
         ToVisit,
         ToSearch,
+        Obstacle,
     }
 }

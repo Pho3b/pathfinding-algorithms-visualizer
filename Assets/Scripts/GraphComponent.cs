@@ -4,12 +4,12 @@ using UnityEngine;
 public class GraphComponent : MonoBehaviour
 {
     public static bool found, isAlgorithmRunning = false;
+    public Tile[,] matrix;
+    public byte width, height;
 
     private readonly WaitForSeconds wfs = new WaitForSeconds(0.04f);
     private readonly short[] rd = new short[4] { -1, +1, 0, 0 };
     private readonly short[] cd = new short[4] { 0, 0, -1, +1 };
-    private GridComponent gridComponent;
-    private Tile[,] matrix;
 
 
     /// <summary>
@@ -17,8 +17,7 @@ public class GraphComponent : MonoBehaviour
     /// </summary>
     private void Awake()
     {
-        gridComponent = GridComponent.instance;
-        matrix = gridComponent.tilesMatrix;
+        matrix = new Tile[width, height];
     }
 
     /// <summary>
@@ -46,6 +45,21 @@ public class GraphComponent : MonoBehaviour
         }
 
         isAlgorithmRunning = false;
+    }
+
+    public void Reset()
+    {
+        found = false;
+
+        for (byte x = 0; x < width; x++)
+        {
+            for (byte y = 0; y < height; y++)
+            {
+                Tile t = matrix[x, y];
+                t.SetState(Tile.TileState.Base);
+                t.isObstacle = false;
+            }
+        }
     }
 
     public IEnumerator<WaitForSeconds> BreadthFirstSearch(Tile from, Tile to = null)
@@ -93,23 +107,24 @@ public class GraphComponent : MonoBehaviour
     /// <summary>
     /// Returns a tile if it is a valid one, if it's not, NULL is returned instead.
     /// </summary>
-    /// <param name="row">The X axis of the Tile that tries to retrieve</param>
-    /// <param name="column">The Y axis of the Tile that tries to retrieve</param>
+    /// <param name="x">The X axis of the Tile that tries to retrieve</param>
+    /// <param name="y">The Y axis of the Tile that tries to retrieve</param>
     /// <returns>The requested tile or NULL in case it not a valid tile</returns>
     /// <note>A tile is 'invalid' when it is out of the matrix bounds or it has been manually set as 'invalid'</note>
-    private Tile RetrieveAdjacentTile(int row, int column)
+    private Tile RetrieveAdjacentTile(int x, int y)
     {
         if (
-            row < 0
-            || row > matrix.GetLength(0) - 1
-            || column < 0
-            || column > matrix.GetLength(1) - 1
-            || matrix[row, column].visited
+            x < 0
+            || x > matrix.GetLength(0) - 1
+            || y < 0
+            || y > matrix.GetLength(1) - 1
+            || matrix[x, y].visited
+            || matrix[x, y].isObstacle
         )
         {
             return null;
         }
 
-        return matrix[row, column];
+        return matrix[x, y];
     }
 }
