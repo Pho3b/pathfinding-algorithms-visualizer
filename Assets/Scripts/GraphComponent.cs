@@ -4,6 +4,7 @@ using UnityEngine;
 public class GraphComponent : MonoBehaviour
 {
     public static bool found, isAlgorithmRunning = false;
+    public static bool isGraphReady = true;
     public static Tile[,] matrix;
     public byte width, height;
 
@@ -18,8 +19,9 @@ public class GraphComponent : MonoBehaviour
 
     public void RunAlgorithm(Enums.Algorithm algorithm, Tile from, Tile to = null)
     {
-        Algorithm currentAlgorithm = null;
         isAlgorithmRunning = true;
+        isGraphReady = false;
+        Algorithm currentAlgorithm = null;
 
         switch (algorithm)
         {
@@ -29,10 +31,15 @@ public class GraphComponent : MonoBehaviour
                 if (currentAlgorithm == null)
                     currentAlgorithm = gameObject.AddComponent<DepthFirstSearch>();
                 break;
+            case Enums.Algorithm.BreadthFirstSearch:
+                currentAlgorithm = gameObject.GetComponent<BreadthFirstSearch>();
+
+                if (currentAlgorithm == null)
+                    currentAlgorithm = gameObject.AddComponent<BreadthFirstSearch>();
+                break;
         }
 
         StartCoroutine(currentAlgorithm.Run(from, to));
-        isAlgorithmRunning = false;
     }
 
 
@@ -41,8 +48,6 @@ public class GraphComponent : MonoBehaviour
     /// </summary>
     public void Reset()
     {
-        found = false;
-
         for (byte x = 0; x < width; x++)
         {
             for (byte y = 0; y < height; y++)
@@ -52,6 +57,9 @@ public class GraphComponent : MonoBehaviour
                 t.isObstacle = false;
             }
         }
+
+        isGraphReady = true;
+        found = false;
     }
 
     /// <summary>

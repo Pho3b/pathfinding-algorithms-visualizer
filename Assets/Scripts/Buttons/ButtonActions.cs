@@ -23,11 +23,20 @@ public class ButtonActions : MonoBehaviour
     }
 
     /// <summary>
-    /// Cheks if any algorithm is already running, if not, it calls the method to start the Depth First Search
+    /// Cheks if any algorithm is already running, if not, it calls the method to start the 'Depth First Search'
     /// </summary>
     public void StartDepthFirstSearch()
     {
-        if (!GraphComponent.isAlgorithmRunning)
+        if (!GraphComponent.isAlgorithmRunning && GraphComponent.isGraphReady)
             gridComponent.RunAlgorithm(Enums.Algorithm.DepthFirstSearch);
+    }
+
+    /// <summary>
+    /// Cheks if any algorithm is already running, if not, it calls the method to start the 'Breadth First Search'
+    /// </summary>
+    public void StartBreadthFirstSearch()
+    {
+        if (!GraphComponent.isAlgorithmRunning && GraphComponent.isGraphReady)
+            gridComponent.RunAlgorithm(Enums.Algorithm.BreadthFirstSearch);
     }
 }
