@@ -44,12 +44,14 @@ public class GridComponent : MonoBehaviour
     }
 
     /// <summary>
-    /// TODO: update it
+    /// Calls the proper method on the 'graphComponent' to start the given 'Enums.Algorithm'
     /// </summary>
-    public void StartDFS()
+    public void RunAlgorithm(Enums.Algorithm algorithm)
     {
         if (startingTile != null)
-            StartCoroutine(graphComponent.DepthFirstSearch(startingTile, endingTile));
+        {
+            graphComponent.RunAlgorithm(algorithm, startingTile, endingTile);
+        }
         else
             Debug.Log("NULL starting tile");
     }
@@ -65,7 +67,7 @@ public class GridComponent : MonoBehaviour
         set
         {
             if (startingTile != null)
-                startingTile.SetState(Tile.TileState.Base);
+                startingTile.SetState(Enums.TileState.Base);
 
             startingTile = value;
         }
@@ -82,7 +84,7 @@ public class GridComponent : MonoBehaviour
         set
         {
             if (endingTile != null)
-                endingTile.SetState(Tile.TileState.Base);
+                endingTile.SetState(Enums.TileState.Base);
 
             endingTile = value;
         }
@@ -105,12 +107,12 @@ public class GridComponent : MonoBehaviour
 
                 spawnedTile.name = $"Tile {x} : {y}";
                 spawnedTile.transform.SetParent(transform);
-                spawnedTile.SetState(Tile.TileState.Base);
+                spawnedTile.SetState(Enums.TileState.Base);
                 spawnedTile.x = x;
                 spawnedTile.y = y;
                 spawnedTile.id = id;
 
-                graphComponent.matrix[x, y] = spawnedTile;
+                GraphComponent.matrix[x, y] = spawnedTile;
                 id++;
             }
 

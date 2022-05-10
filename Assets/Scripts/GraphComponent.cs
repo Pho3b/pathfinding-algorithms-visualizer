@@ -1,15 +1,11 @@
-using System.Collections.Generic;
+using Assets.Scripts.Algorithms;
 using UnityEngine;
 
 public class GraphComponent : MonoBehaviour
 {
     public static bool found, isAlgorithmRunning = false;
-    public Tile[,] matrix;
+    public static Tile[,] matrix;
     public byte width, height;
-
-    private readonly WaitForSeconds wfs = new WaitForSeconds(0.04f);
-    private readonly short[] rd = new short[4] { -1, +1, 0, 0 };
-    private readonly short[] cd = new short[4] { 0, 0, -1, +1 };
 
 
     /// <summary>
@@ -20,33 +16,29 @@ public class GraphComponent : MonoBehaviour
         matrix = new Tile[width, height];
     }
 
-    /// <summary>
-    /// Performs a DepthFirstSearch on the given matrix(graph)
-    /// If the 'to' vertex is given, the search will stop as soon as it will find it
-    /// </summary>
-    /// <param name="from">Starting vertex of the search</param>
-    /// <param name="to">Ending vertex of the search</param>
-    /// <returns></returns>
-    public IEnumerator<WaitForSeconds> DepthFirstSearch(Tile from, Tile to = null)
+    public void RunAlgorithm(Enums.Algorithm algorithm, Tile from, Tile to = null)
     {
+        Algorithm currentAlgorithm = null;
         isAlgorithmRunning = true;
 
-        Stack<Tile> stack = new Stack<Tile>();
-        stack.Push(from);
-
-        while (stack.Count > 0 && !found)
+        switch (algorithm)
         {
-            Tile tile = stack.Pop();
-            tile.SetState(Tile.TileState.Visited);
+            case Enums.Algorithm.DepthFirstSearch:
+                currentAlgorithm = gameObject.GetComponent<DepthFirstSearch>();
 
-            yield return wfs;
-
-            StartCoroutine(AddAdjacentTiles(tile, to, stack));
+                if (currentAlgorithm == null)
+                    currentAlgorithm = gameObject.AddComponent<DepthFirstSearch>();
+                break;
         }
 
+        StartCoroutine(currentAlgorithm.Run(from, to));
         isAlgorithmRunning = false;
     }
 
+
+    /// <summary>
+    /// Resets the current graphComponent to be the same as it was when it was first instantiated
+    /// </summary>
     public void Reset()
     {
         found = false;
@@ -56,15 +48,10 @@ public class GraphComponent : MonoBehaviour
             for (byte y = 0; y < height; y++)
             {
                 Tile t = matrix[x, y];
-                t.SetState(Tile.TileState.Base);
+                t.SetState(Enums.TileState.Base);
                 t.isObstacle = false;
             }
         }
-    }
-
-    public IEnumerator<WaitForSeconds> BreadthFirstSearch(Tile from, Tile to = null)
-    {
-        yield return wfs;
     }
 
     /// <summary>
@@ -74,57 +61,5 @@ public class GraphComponent : MonoBehaviour
     {
         private get { return matrix; }
         set { matrix = value; }
-    }
-
-    /// <summary>
-    /// Cycles over the 4 possibile grid directions and adds the valid tiles to the stack to visit them later.
-    /// </summary>
-    /// <param name="from">The starting tile(vertex)</param>
-    /// <param name="stack">The stack where the Tiles that needs to be visited are stored</param>
-    /// <returns>The current instance 'wfs' attribute when a tile is added to the stack</returns>
-    private IEnumerator<WaitForSeconds> AddAdjacentTiles(Tile from, Tile to, Stack<Tile> stack)
-    {
-        for (byte i = 0; i < 4; i++)
-        {
-            Tile currentTile = RetrieveAdjacentTile(from.x + rd[i], from.y + cd[i]);
-
-            if (to != null && currentTile != null && (currentTile.id == to.id || to.id == from.id))
-            {
-                to.SetState(Tile.TileState.Found);
-                found = true;
-                break;
-            }
-            else if (currentTile != null)
-            {
-                currentTile.SetState(Tile.TileState.ToVisit);
-                stack.Push(currentTile);
-
-                yield return wfs;
-            }
-        }
-    }
-
-    /// <summary>
-    /// Returns a tile if it is a valid one, if it's not, NULL is returned instead.
-    /// </summary>
-    /// <param name="x">The X axis of the Tile that tries to retrieve</param>
-    /// <param name="y">The Y axis of the Tile that tries to retrieve</param>
-    /// <returns>The requested tile or NULL in case it not a valid tile</returns>
-    /// <note>A tile is 'invalid' when it is out of the matrix bounds or it has been manually set as 'invalid'</note>
-    private Tile RetrieveAdjacentTile(int x, int y)
-    {
-        if (
-            x < 0
-            || x > matrix.GetLength(0) - 1
-            || y < 0
-            || y > matrix.GetLength(1) - 1
-            || matrix[x, y].visited
-            || matrix[x, y].isObstacle
-        )
-        {
-            return null;
-        }
-
-        return matrix[x, y];
     }
 }

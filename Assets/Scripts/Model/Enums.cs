@@ -1,4 +1,4 @@
-﻿public partial class Tile
+﻿public class Enums
 {
     /// <summary>
     /// Enumerator representing an eloquent reference to the basic possible Tile states.
@@ -11,5 +11,13 @@
         ToVisit,
         ToSearch,
         Obstacle,
+    }
+
+    /// <summary>
+    /// Supported algorithms enumerator
+    /// </summary>
+    public enum Algorithm
+    {
+        DepthFirstSearch,
     }
 }

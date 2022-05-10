@@ -28,6 +28,6 @@ public class ButtonActions : MonoBehaviour
     public void StartDepthFirstSearch()
     {
         if (!GraphComponent.isAlgorithmRunning)
-            gridComponent.StartDFS();
+            gridComponent.RunAlgorithm(Enums.Algorithm.DepthFirstSearch);
     }
 }

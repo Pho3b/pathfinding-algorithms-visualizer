@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public partial class Tile : MonoBehaviour
+public class Tile : MonoBehaviour
 {
     public bool visited, isObstacle = false;
     public int x, y, id;
@@ -43,8 +43,6 @@ public partial class Tile : MonoBehaviour
         {
             SetObstacleTile();
         }
-
-
     }
 
     /// <summary>
@@ -52,25 +50,21 @@ public partial class Tile : MonoBehaviour
     /// TODO: update it to be just SetColor
     /// </summary>
     /// <param name="state">The state that the Tile will be set to</param>
-    public void SetState(TileState state)
+    public void SetState(Enums.TileState state)
     {
         spriteRenderer.color = constant.colorsDictionary[state];
-
-        if (state == TileState.Visited || state == TileState.ToVisit)
-            visited = true;
-        else
-            visited = false;
+        visited = state == Enums.TileState.Visited || state == Enums.TileState.ToVisit;
     }
 
     /// <summary>
-    /// It updates the 'startingTile' attribute in the 'gridComponent' and also updates the color accordingly.
     /// Sets the current Tile to be the STARTING one, or BASE if it already is the STARTING tile
+    /// it also updates the 'startingTile' attribute in the 'gridComponent' and  the color accordingly.
     /// </summary>
     private void SetStartingTile()
     {
-        spriteRenderer.color = spriteRenderer.color != constant.colorsDictionary[TileState.Found]
-            ? constant.colorsDictionary[TileState.Found]
-            : constant.colorsDictionary[TileState.Base];
+        spriteRenderer.color = spriteRenderer.color != constant.colorsDictionary[Enums.TileState.Found]
+            ? constant.colorsDictionary[Enums.TileState.Found]
+            : constant.colorsDictionary[Enums.TileState.Base];
 
         gridComponent.StartingTile = (gridComponent.StartingTile != null && gridComponent.StartingTile.id == id)
             ? null
@@ -78,29 +72,37 @@ public partial class Tile : MonoBehaviour
     }
 
     /// <summary>
-    /// It updates the 'endingTile' attribute in the 'gridComponent' and also updates the color accordingly.
     /// Sets the current Tile to be the ENDING one, or BASE if it already is the ENDING tile
+    /// it also updates the 'endingTile' attribute in the 'gridComponent' and the color accordingly.
     /// </summary>
     private void SetEndingTile()
     {
-        spriteRenderer.color = spriteRenderer.color != constant.colorsDictionary[TileState.ToSearch]
-            ? constant.colorsDictionary[TileState.ToSearch]
-            : constant.colorsDictionary[TileState.Base];
+        spriteRenderer.color = spriteRenderer.color != constant.colorsDictionary[Enums.TileState.ToSearch]
+            ? constant.colorsDictionary[Enums.TileState.ToSearch]
+            : constant.colorsDictionary[Enums.TileState.Base];
 
         gridComponent.EndingTile = (gridComponent.EndingTile != null && gridComponent.EndingTile.id == id)
             ? null
             : this;
     }
 
+    /// <summary>
+    /// Sets the current tile to be a blocking one and updates its color accordingly
+    /// </summary>
     private void SetObstacleTile()
     {
-        spriteRenderer.color = constant.colorsDictionary[TileState.Obstacle];
+        spriteRenderer.color = constant.colorsDictionary[Enums.TileState.Obstacle];
         isObstacle = true;
     }
 
+    /// <summary>
+    /// Resets the current tile attributes as they were when it was first instatiated.
+    /// It also updates the 'gridComponent' 'startingTile' and 'endingTile' tile to be null it any of them happens
+    /// to be assigned to this Tile isntance.
+    /// </summary>
     private void ResetTile()
     {
-        spriteRenderer.color = constant.colorsDictionary[TileState.Base];
+        spriteRenderer.color = constant.colorsDictionary[Enums.TileState.Base];
         isObstacle = false;
 
         if (gridComponent.StartingTile != null && gridComponent.StartingTile.id == id)
