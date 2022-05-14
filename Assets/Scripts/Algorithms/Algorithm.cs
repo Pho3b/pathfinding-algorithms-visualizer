@@ -11,6 +11,9 @@ namespace Assets.Scripts.Algorithms
         protected readonly short[] cd = new short[4] { 0, 0, -1, +1 };
 
 
+        /// <summary>
+        /// Default Unity Awake
+        /// </summary>
         private void Awake()
         {
             matrix = GraphComponent.matrix;

@@ -5,11 +5,11 @@ using UnityEngine;
 class DepthFirstSearch : Algorithm
 {
     /// <summary>
-    /// Performs a DepthFirstSearch on the given matrix(graph)
+    /// Performs a DepthFirstSearch on the current matrix(graph)
     /// If the 'to' vertex is given, the search will stop as soon as it will find it
     /// </summary>
     /// <param name="from">Starting vertex of the search</param>
-    /// <param name="to">Ending vertex of the search</param>
+    /// <param name="to"> Optional ending vertex of the search</param>
     /// <returns></returns>
     public override IEnumerator<WaitForSeconds> Run(Tile from, Tile to = null)
     {

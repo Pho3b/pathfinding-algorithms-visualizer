@@ -17,6 +17,13 @@ public class GraphComponent : MonoBehaviour
         matrix = new Tile[width, height];
     }
 
+    /// <summary>
+    /// Instantiate the concrete class to run the given algorithm if found,
+    /// it also handles the state of some class static attributes to indicate that and algorithm is running.
+    /// </summary>
+    /// <param name="algorithm">The algorithm to run</param>
+    /// <param name="from">Starting tile</param>
+    /// <param name="to">Optional Ending tile</param>
     public void RunAlgorithm(Enums.Algorithm algorithm, Tile from, Tile to = null)
     {
         isAlgorithmRunning = true;
@@ -36,6 +43,9 @@ public class GraphComponent : MonoBehaviour
 
                 if (currentAlgorithm == null)
                     currentAlgorithm = gameObject.AddComponent<BreadthFirstSearch>();
+                break;
+            default:
+                Debug.Log("Given Algorithm not found");
                 break;
         }
 

@@ -4,6 +4,13 @@ using UnityEngine;
 
 class BreadthFirstSearch : Algorithm
 {
+    /// <summary>
+    /// Performs a BreadthFirstSearch on the current matrix(graph)
+    /// If the 'to' vertex is given, the search will stop as soon as it will find it
+    /// </summary>
+    /// <param name="from">Starting vertex of the search</param>
+    /// <param name="to"> Optional ending vertex of the search</param>
+    /// <returns></returns>
     public override IEnumerator<WaitForSeconds> Run(Tile from, Tile to = null)
     {
         Queue<Tile> queue = new Queue<Tile>();
@@ -26,6 +33,14 @@ class BreadthFirstSearch : Algorithm
         GraphComponent.isAlgorithmRunning = false;
     }
 
+
+    /// <summary>
+    /// Cycles over the 4 possibile grid directions and adds the valid tiles to the queue to visit them in-order.
+    /// </summary>
+    /// <param name="from">The starting tile(vertex)</param>
+    /// <param name="queue">The queue where the Tiles that needs to be visited are stored</param>
+    /// <param name="parent">The dictionary holding the parent reference for every tile, useful to reconstruct the shortest path</param>
+    /// <returns>The current instance 'wfs' attribute when a tile is added to the queue</returns>
     private IEnumerator<WaitForSeconds> AddAdjacentTiles(Tile from, Tile to, Queue<Tile> queue, Dictionary<int, Tile> parent)
     {
         for (byte i = 0; i < Constant.DirectionsNum; i++)
@@ -50,6 +65,12 @@ class BreadthFirstSearch : Algorithm
         }
     }
 
+    /// <summary>
+    /// Follows the tiles in reverse order to reconstruct and highlight the shortest path from the Ending tile to the Starting one
+    /// </summary>
+    /// <param name="parent">The dictionary holding the parent reference for every tile</param>
+    /// <param name="to">Optional ending vertex of the search</param>
+    /// <returns>The current instance 'wfs' attribute when a tile is highlighted</returns>
     private IEnumerator<WaitForSeconds> HighlightShortestPath(Dictionary<int, Tile> parent, Tile to)
     {
         Tile t = parent[to.id];
