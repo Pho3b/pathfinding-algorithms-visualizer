@@ -51,14 +51,18 @@ class BreadthFirstSearch : Algorithm
             {
                 to.SetState(Enums.TileState.Found);
                 GraphComponent.found = true;
-                parent.Add(tile.id, from);
+
+                if (!parent.ContainsKey(tile.id))
+                    parent.Add(tile.id, from);
                 break;
             }
             else if (tile != null)
             {
                 tile.SetState(Enums.TileState.ToVisit);
                 queue.Enqueue(tile);
-                parent.Add(tile.id, from);
+
+                if (!parent.ContainsKey(tile.id))
+                    parent.Add(tile.id, from);
 
                 yield return wfs;
             }
