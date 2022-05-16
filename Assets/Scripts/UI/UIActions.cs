@@ -1,8 +1,10 @@
 using UnityEngine;
+using UnityEngine.UI;
 
-public class ButtonActions : MonoBehaviour
+public class UIActions : MonoBehaviour
 {
     private GridComponent gridComponent;
+    [SerializeField] private Toggle weightToggle;
 
 
     /// <summary>
@@ -38,5 +40,24 @@ public class ButtonActions : MonoBehaviour
     {
         if (!GraphComponent.isAlgorithmRunning && GraphComponent.isGraphReady)
             gridComponent.RunAlgorithm(Enums.Algorithm.BreadthFirstSearch);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public void ToggleWeightedGraph()
+    {
+        if (!GraphComponent.isAlgorithmRunning && GraphComponent.isGraphReady)
+        {
+            if (weightToggle.isOn)
+            {
+                print("Add weights");
+            }
+            else
+            {
+                print("Remove weights");
+            }
+        }
+            
     }
 }
