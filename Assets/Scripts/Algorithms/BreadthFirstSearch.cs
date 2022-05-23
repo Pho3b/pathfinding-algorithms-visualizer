@@ -43,7 +43,7 @@ class BreadthFirstSearch : Algorithm
     /// <returns>The current instance 'wfs' attribute when a tile is added to the queue</returns>
     private IEnumerator<WaitForSeconds> AddAdjacentTiles(Tile from, Tile to, Queue<Tile> queue, Dictionary<int, Tile> parent)
     {
-        for (byte i = 0; i < Constant.DirectionsNum; i++)
+        for (byte i = 0; i < Constant.DirectionsNumber; i++)
         {
             Tile tile = RetrieveAdjacentTile(from.x + rd[i], from.y + cd[i]);
 

@@ -1,8 +1,9 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 using TMPro;
+using System;
 
-public class Tile : MonoBehaviour
+public class Tile : MonoBehaviour, IComparable<Tile>
 {
     public bool visited, isObstacle = false;
     public int x, y, id;
@@ -51,7 +52,6 @@ public class Tile : MonoBehaviour
 
     /// <summary>
     /// Updates the current Tile with the given Tile 'state', updates the 'visited' attribute if the given state requires it
-    /// TODO: update it to be just SetColor
     /// </summary>
     /// <param name="state">The state that the Tile will be set to</param>
     public void SetState(Enums.TileState state)
@@ -65,9 +65,9 @@ public class Tile : MonoBehaviour
     /// </summary>
     public int Weight
     {
-        private get { return weight; }
-        set 
-        { 
+        get { return weight; }
+        set
+        {
             weight = value;
             weightText.text = value.ToString();
         }
@@ -131,5 +131,19 @@ public class Tile : MonoBehaviour
         {
             gridComponent.EndingTile = null;
         }
+    }
+
+    /// <summary>
+    /// Compares the given object with the current instance
+    /// </summary>
+    /// <param name="obj">The object to compare</param>
+    /// <returns>
+    /// The return value is less than zero if the current instance is less than the value. 
+    /// It’s zero, if the current instance is equal to value, 
+    /// whereas return value is more than zero if the current instance is more than value
+    /// </returns>
+    int IComparable<Tile>.CompareTo(Tile other)
+    {
+        return weight.CompareTo(other);
     }
 }

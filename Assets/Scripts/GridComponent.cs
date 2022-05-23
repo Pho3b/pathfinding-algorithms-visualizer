@@ -33,17 +33,6 @@ public class GridComponent : MonoBehaviour
     }
 
     /// <summary>
-    /// Resets the UI grid and triggers the method to also rest the underlying 'matrix' data structure
-    /// </summary>
-    public void ResetGrid()
-    {
-        StartingTile = null;
-        EndingTile = null;
-
-        graphComponent.Reset();
-    }
-
-    /// <summary>
     /// Calls the proper method on the 'graphComponent' to start the given 'Enums.Algorithm'
     /// </summary>
     public void RunAlgorithm(Enums.Algorithm algorithm)
@@ -54,6 +43,17 @@ public class GridComponent : MonoBehaviour
         }
         else
             Debug.Log("NULL starting tile");
+    }
+
+    /// <summary>
+    /// Resets the UI grid and triggers the method to also rest the underlying 'matrix' data structure
+    /// </summary>
+    public void ResetGrid()
+    {
+        StartingTile = null;
+        EndingTile = null;
+
+        graphComponent.Reset();
     }
 
     /// <summary>

@@ -37,7 +37,7 @@ class DepthFirstSearch : Algorithm
     /// <returns>The current instance 'wfs' attribute when a tile is added to the stack</returns>
     private IEnumerator<WaitForSeconds> AddAdjacentTiles(Tile from, Tile to, Stack<Tile> stack)
     {
-        for (byte i = 0; i < Constant.DirectionsNum; i++)
+        for (byte i = 0; i < Constant.DirectionsNumber; i++)
         {
             Tile currentTile = RetrieveAdjacentTile(from.x + rd[i], from.y + cd[i]);
 

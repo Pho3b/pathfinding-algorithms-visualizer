@@ -4,7 +4,7 @@ using UnityEngine;
 public class Constant
 {
     public Dictionary<Enums.TileState, Color> colorsDictionary;
-    public const byte DirectionsNum = 4;
+    public const byte DirectionsNumber = 4;
 
 
     /// <summary>
