@@ -51,13 +51,13 @@ public class UIActions : MonoBehaviour
         {
             if (weightToggle.isOn)
             {
-                print("Add weights");
+                gridComponent.AddRandomWeights();
             }
             else
             {
-                print("Remove weights");
+                gridComponent.RemoveWeights();
             }
         }
-            
+
     }
 }

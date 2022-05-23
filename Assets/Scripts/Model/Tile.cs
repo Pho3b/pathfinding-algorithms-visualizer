@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UIElements;
+using TMPro;
 
 public class Tile : MonoBehaviour
 {
@@ -7,6 +8,8 @@ public class Tile : MonoBehaviour
     public int x, y, id;
 
     [SerializeField] private SpriteRenderer spriteRenderer;
+    private TextMeshPro weightText;
+    private int weight = 0;
     private Constant constant;
     private GridComponent gridComponent;
 
@@ -16,6 +19,7 @@ public class Tile : MonoBehaviour
     /// </summary>
     private void Awake()
     {
+        weightText = GetComponentInChildren<TextMeshPro>();
         gridComponent = GridComponent.instance;
         constant = new Constant();
     }
@@ -54,6 +58,19 @@ public class Tile : MonoBehaviour
     {
         spriteRenderer.color = constant.colorsDictionary[state];
         visited = state == Enums.TileState.Visited || state == Enums.TileState.ToVisit;
+    }
+
+    /// <summary>
+    /// Getter and Setter for the 'matrix' attribute
+    /// </summary>
+    public int Weight
+    {
+        private get { return weight; }
+        set 
+        { 
+            weight = value;
+            weightText.text = value.ToString();
+        }
     }
 
     /// <summary>

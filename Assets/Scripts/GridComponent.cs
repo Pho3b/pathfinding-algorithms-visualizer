@@ -91,6 +91,34 @@ public class GridComponent : MonoBehaviour
     }
 
     /// <summary>
+    /// Sets the weight of all the current Grid's tiles to a random number between 0 - 100 
+    /// </summary>
+    public void AddRandomWeights()
+    {
+        for (byte x = 0; x < width; x++)
+        {
+            for (byte y = 0; y < height; y++)
+            {
+                GraphComponent.matrix[x, y].Weight = Random.Range(0, 100);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Sets the weight of all the current Grid's tiles to zero
+    /// </summary>
+    public void RemoveWeights()
+    {
+        for (byte x = 0; x < width; x++)
+        {
+            for (byte y = 0; y < height; y++)
+            {
+                GraphComponent.matrix[x, y].Weight = 0;
+            }
+        }
+    }
+
+    /// <summary>
     /// Generates a fresh new UI grid and populates the graphComponent's attribute 'matrix' with the newly
     /// instantiated Tiles.
     /// </summary>
