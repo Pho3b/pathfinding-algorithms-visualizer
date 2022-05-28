@@ -44,6 +44,12 @@ public class GraphComponent : MonoBehaviour
                 if (currentAlgorithm == null)
                     currentAlgorithm = gameObject.AddComponent<BreadthFirstSearch>();
                 break;
+            case Enums.Algorithm.DjikstraAlgorithm:
+                currentAlgorithm = gameObject.GetComponent<DjikstraAlgorithm>();
+
+                if (currentAlgorithm == null)
+                    currentAlgorithm = gameObject.AddComponent<DjikstraAlgorithm>();
+                break;
             default:
                 Debug.Log("Given Algorithm not found");
                 break;

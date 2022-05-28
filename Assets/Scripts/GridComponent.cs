@@ -99,7 +99,7 @@ public class GridComponent : MonoBehaviour
         {
             for (byte y = 0; y < height; y++)
             {
-                GraphComponent.matrix[x, y].Weight = Random.Range(0, 100);
+                GraphComponent.matrix[x, y].Weight = Random.Range(0, 10);
             }
         }
     }
@@ -133,7 +133,7 @@ public class GridComponent : MonoBehaviour
                 Vector3 worldPosition = new Vector3(x, y, 0);
                 Tile spawnedTile = Instantiate(tilePrefab, worldPosition, Quaternion.identity);
 
-                spawnedTile.name = $"Tile {x} : {y}";
+                spawnedTile.name = $"tile: {id}";
                 spawnedTile.transform.SetParent(transform);
                 spawnedTile.SetState(Enums.TileState.Base);
                 spawnedTile.x = x;
@@ -143,8 +143,6 @@ public class GridComponent : MonoBehaviour
                 GraphComponent.matrix[x, y] = spawnedTile;
                 id++;
             }
-
-            id++;
         }
     }
 }

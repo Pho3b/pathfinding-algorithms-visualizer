@@ -20,5 +20,6 @@
     {
         DepthFirstSearch,
         BreadthFirstSearch,
+        DjikstraAlgorithm,
     }
 }

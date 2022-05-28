@@ -68,22 +68,4 @@ class BreadthFirstSearch : Algorithm
             }
         }
     }
-
-    /// <summary>
-    /// Follows the tiles in reverse order to reconstruct and highlight the shortest path from the Ending tile to the Starting one
-    /// </summary>
-    /// <param name="parent">The dictionary holding the parent reference for every tile</param>
-    /// <param name="to">Optional ending vertex of the search</param>
-    /// <returns>The current instance 'wfs' attribute when a tile is highlighted</returns>
-    private IEnumerator<WaitForSeconds> HighlightShortestPath(Dictionary<int, Tile> parent, Tile to)
-    {
-        Tile t = parent[to.id];
-        t.SetState(Enums.TileState.Found);
-
-        while (parent.TryGetValue(t.id, out t))
-        {
-            yield return wfs;
-            t.SetState(Enums.TileState.Found);
-        }
-    }
 }

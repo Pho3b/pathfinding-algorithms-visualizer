@@ -1,9 +1,8 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 using TMPro;
-using System;
 
-public class Tile : MonoBehaviour, IComparable<Tile>
+public class Tile : MonoBehaviour
 {
     public bool visited, isObstacle = false;
     public int x, y, id;
@@ -30,6 +29,13 @@ public class Tile : MonoBehaviour, IComparable<Tile>
     /// </summary>
     private void OnMouseOver()
     {
+        // Early return if any algorithm is currently running
+        if (GraphComponent.isAlgorithmRunning)
+        {
+            return;
+        }
+
+        // Tile INPUT actions list
         if (Input.GetMouseButton((int)MouseButton.LeftMouse) && Input.GetKey(KeyCode.LeftControl))
         {
             ResetTile();
@@ -131,19 +137,5 @@ public class Tile : MonoBehaviour, IComparable<Tile>
         {
             gridComponent.EndingTile = null;
         }
-    }
-
-    /// <summary>
-    /// Compares the given object with the current instance
-    /// </summary>
-    /// <param name="obj">The object to compare</param>
-    /// <returns>
-    /// The return value is less than zero if the current instance is less than the value. 
-    /// It’s zero, if the current instance is equal to value, 
-    /// whereas return value is more than zero if the current instance is more than value
-    /// </returns>
-    int IComparable<Tile>.CompareTo(Tile other)
-    {
-        return weight.CompareTo(other);
     }
 }
