@@ -184,8 +184,8 @@ namespace Assets.Scripts.Algorithms.DS
         private void SortHeapUpward(int heapIndex)
         {
             // move toward top if better than parent
-            while (heapIndex > 1 &&
-                    m_objects[m_heap[heapIndex]].CompareTo(m_objects[m_heap[Parent(heapIndex)]]) < 0)
+            while (heapIndex > 1 
+                &&m_objects[m_heap[heapIndex]].CompareTo(m_objects[m_heap[Parent(heapIndex)]]) < 0)
             {
                 // swap this node with its parent
                 Swap(heapIndex, Parent(heapIndex));

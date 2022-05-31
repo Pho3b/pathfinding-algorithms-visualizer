@@ -21,5 +21,6 @@
         DepthFirstSearch,
         BreadthFirstSearch,
         DjikstraAlgorithm,
+        AStarAlgorithm,
     }
 }

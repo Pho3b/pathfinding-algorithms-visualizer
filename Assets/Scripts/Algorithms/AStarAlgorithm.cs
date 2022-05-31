@@ -5,28 +5,23 @@ using Assets.Scripts.Model;
 
 namespace Assets.Scripts.Algorithms
 {
-    class AStartAlgorithm : Algorithm
+    class AStarAlgorithm : Algorithm
     {
         public override IEnumerator<WaitForSeconds> Run(Tile from, Tile to = null)
         {
-            int[] dist = new int[matrix.Length];
-            FillArray(dist, int.MaxValue);
-            dist[from.id] = 0;
-
             Dictionary<int, Tile> parent = new Dictionary<int, Tile>();
             IndexedPriorityQueue<TileWeight> iPriorityQueue = new IndexedPriorityQueue<TileWeight>(matrix.Length);
             iPriorityQueue.Insert(from.id, new TileWeight(from, 0));
 
-            while (iPriorityQueue.Count > 0)
+            while (iPriorityQueue.Count > 0 && !GraphComponent.found)
             {
                 TileWeight currentTile = iPriorityQueue.Pop();
                 currentTile.Tile.SetState(Enums.TileState.Visited);
 
                 yield return wfs;
 
-                StartCoroutine(AddAdjacentTiles(currentTile, to, iPriorityQueue, parent, dist));
+                StartCoroutine(AddAdjacentTiles(currentTile, to, iPriorityQueue, parent));
             }
-
 
             if (GraphComponent.found)
                 StartCoroutine(HighlightShortestPath(parent, to));
@@ -45,8 +40,7 @@ namespace Assets.Scripts.Algorithms
             TileWeight tileWeight,
             Tile to,
             IndexedPriorityQueue<TileWeight> iPriorityQueue,
-            Dictionary<int, Tile> parent,
-            int[] dist
+            Dictionary<int, Tile> parent
         )
         {
             for (byte i = 0; i < Constant.DirectionsNumber; i++)
@@ -56,8 +50,6 @@ namespace Assets.Scripts.Algorithms
                 if (tile == null)
                     continue;
 
-                int newDist = dist[tileWeight.Tile.id] + tile.Weight;
-
                 if (to != null && (tile.id == to.id || to.id == tileWeight.Tile.id))
                 {
                     to.SetState(Enums.TileState.Found);
@@ -66,18 +58,19 @@ namespace Assets.Scripts.Algorithms
                     if (!parent.ContainsKey(tile.id))
                         parent.Add(tile.id, tileWeight.Tile);
                 }
-                else if (newDist < dist[tile.id])
+                else
                 {
-                    dist[tile.id] = newDist;
                     tile.SetState(Enums.TileState.ToVisit);
+                    int manhattanDistance = Mathf.Abs(tile.x - to.x) + Mathf.Abs(tile.y - to.y);
+                    int heuristicWeight = tile.Weight + manhattanDistance;
 
                     if (iPriorityQueue[tile.id] == null)
                     {
-                        iPriorityQueue.Insert(tile.id, new TileWeight(tile, newDist));
+                        iPriorityQueue.Insert(tile.id, new TileWeight(tile, heuristicWeight));
                     }
                     else
                     {
-                        iPriorityQueue.DecreaseIndex(tile.id, new TileWeight(tile, newDist));
+                        iPriorityQueue.DecreaseIndex(tile.id, new TileWeight(tile, heuristicWeight));
                     }
 
                     if (!parent.ContainsKey(tile.id))

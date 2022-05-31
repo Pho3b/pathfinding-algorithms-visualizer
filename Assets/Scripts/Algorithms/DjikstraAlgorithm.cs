@@ -17,7 +17,7 @@ namespace Assets.Scripts.Algorithms
             IndexedPriorityQueue<TileWeight> iPriorityQueue = new IndexedPriorityQueue<TileWeight>(matrix.Length);
             iPriorityQueue.Insert(from.id, new TileWeight(from, 0));
 
-            while (iPriorityQueue.Count > 0)
+            while (iPriorityQueue.Count > 0 && !GraphComponent.found)
             {
                 TileWeight currentTile = iPriorityQueue.Pop();
                 currentTile.Tile.SetState(Enums.TileState.Visited);
@@ -26,7 +26,6 @@ namespace Assets.Scripts.Algorithms
 
                 StartCoroutine(AddAdjacentTiles(currentTile, to, iPriorityQueue, parent, dist));
             }
-
 
             if (GraphComponent.found)
                 StartCoroutine(HighlightShortestPath(parent, to));
@@ -40,6 +39,7 @@ namespace Assets.Scripts.Algorithms
         /// <param name="tileWeight">The starting tile(vertex)</param>
         /// <param name="iPriorityQueue">The indexed priority queue where the Tiles that needs to be visited are stored</param>
         /// <param name="parent">The dictionary holding the parent reference for every tile, useful to reconstruct the shortest path</param>
+        /// <param name="dist">The array holding the shortest distance for every node in the graph</param>
         /// <returns>The current instance 'wfs' coroutine attribute when a tile is added to the queue</returns>
         private IEnumerator<WaitForSeconds> AddAdjacentTiles(
             TileWeight tileWeight,

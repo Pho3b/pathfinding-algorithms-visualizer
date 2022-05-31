@@ -50,8 +50,14 @@ public class GraphComponent : MonoBehaviour
                 if (currentAlgorithm == null)
                     currentAlgorithm = gameObject.AddComponent<DjikstraAlgorithm>();
                 break;
+            case Enums.Algorithm.AStarAlgorithm:
+                currentAlgorithm = gameObject.GetComponent<AStarAlgorithm>();
+
+                if (currentAlgorithm == null)
+                    currentAlgorithm = gameObject.AddComponent<AStarAlgorithm>();
+                break;
             default:
-                Debug.Log("Given Algorithm not found");
+                Debug.Log("The given Algorithm was not found");
                 break;
         }
 

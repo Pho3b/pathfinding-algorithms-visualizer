@@ -51,6 +51,15 @@ public class UIActions : MonoBehaviour
             gridComponent.RunAlgorithm(Enums.Algorithm.DjikstraAlgorithm);
     }
 
+    /// <summary>
+    /// Cheks if any algorithm is already running, if not, it calls the method to start the 'Breadth First Search'
+    /// </summary>
+    public void StartAStartAlgorithmh()
+    {
+        if (!GraphComponent.isAlgorithmRunning && GraphComponent.isGraphReady)
+            gridComponent.RunAlgorithm(Enums.Algorithm.AStarAlgorithm);
+    }
+
     /// <summary> 
     /// 
     /// </summary>
