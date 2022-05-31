@@ -28,30 +28,6 @@ namespace Assets.Scripts.Model
         }
 
         /// <summary>
-        /// Returns the current referencing Tile ID
-        /// </summary>
-        public int TileId
-        {
-            get { return t.id; }
-        }
-
-        /// <summary>
-        /// Returns the current referencing Tile 'x' coordinate value
-        /// </summary>
-        public int X
-        {
-            get { return t.x; }
-        }
-
-        /// <summary>
-        /// Returns the current referencing Tile 'y' coordinate value
-        /// </summary>
-        public int Y
-        {
-            get { return t.y; }
-        }
-
-        /// <summary>
         /// Compares the given object with the current instance
         /// </summary>
         /// <param name="obj">The object to compare</param>
