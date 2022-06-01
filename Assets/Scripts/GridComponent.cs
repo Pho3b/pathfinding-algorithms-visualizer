@@ -5,10 +5,9 @@ public class GridComponent : MonoBehaviour
     public static GridComponent instance { get; private set; }
     public Tile tilePrefab;
 
-    [SerializeField] private Camera _camera;
-    [SerializeField] private byte width, height;
     [SerializeField] private GraphComponent graphComponent;
     private Tile startingTile, endingTile;
+    private byte width, height;
 
 
     /// <summary>
@@ -16,12 +15,9 @@ public class GridComponent : MonoBehaviour
     /// </summary>
     private void Awake()
     {
+        width = graphComponent.width;
+        height = graphComponent.height;
         instance = this;
-
-        // setting up camera position
-        _camera = _camera ?? Camera.main;
-        _camera.transform.position += new Vector3(graphComponent.width / 2, (graphComponent.height / 2) - 1, -10);
-        _camera.orthographicSize = 8;
     }
 
     /// <summary>

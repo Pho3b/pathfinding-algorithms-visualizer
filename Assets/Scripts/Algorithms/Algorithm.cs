@@ -6,7 +6,7 @@ namespace Assets.Scripts.Algorithms
     abstract class Algorithm : MonoBehaviour
     {
         protected Tile[,] matrix;
-        protected readonly WaitForSeconds wfs = new WaitForSeconds(0.01f);
+        protected readonly WaitForSeconds wfs = new WaitForSeconds(Constant.animationSeconds);
         protected readonly short[] rd = new short[4] { -1, +1, 0, 0 };
         protected readonly short[] cd = new short[4] { 0, 0, -1, +1 };
 
@@ -18,6 +18,14 @@ namespace Assets.Scripts.Algorithms
         {
             matrix = GraphComponent.matrix;
         }
+
+        /// <summary>
+        /// Runs the concrete implementation of a graph algorithm
+        /// </summary>
+        /// <param name="from">The starting tile</param>
+        /// <param name="to">The ending file, null if not given</param>
+        /// <returns></returns>
+        abstract public IEnumerator<WaitForSeconds> Run(Tile from, Tile to = null);
 
         /// <summary>
         /// Returns a tile if it is a valid one, if it's not, NULL is returned instead.
@@ -60,13 +68,5 @@ namespace Assets.Scripts.Algorithms
                 t.SetState(Enums.TileState.Found);
             }
         }
-
-        /// <summary>
-        /// Runs the concrete implementation of a graph algorithm
-        /// </summary>
-        /// <param name="from">The starting tile</param>
-        /// <param name="to">The ending file, null if not given</param>
-        /// <returns></returns>
-        abstract public IEnumerator<WaitForSeconds> Run(Tile from, Tile to = null);
     }
 }
