@@ -60,9 +60,9 @@ namespace Assets.Scripts.Algorithms
                 }
                 else
                 {
-                    tile.SetState(Enums.TileState.ToVisit);
                     int manhattanDistance = Mathf.Abs(tile.x - to.x) + Mathf.Abs(tile.y - to.y);
                     int heuristicWeight = tile.Weight + manhattanDistance;
+                    tile.SetState(Enums.TileState.ToVisit);
 
                     if (iPriorityQueue[tile.id] == null)
                     {

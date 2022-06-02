@@ -5,7 +5,8 @@ public class Constant
 {
     public Dictionary<Enums.TileState, Color> colorsDictionary;
     public const byte DirectionsNumber = 4;
-    public const float animationSeconds = 0.008f;
+    public const float AnimationSeconds = 0.008f;
+    public const string StateChangeTrigger = "StateChangeTrigger";
 
 
     /// <summary>
@@ -24,12 +25,12 @@ public class Constant
     {
         colorsDictionary = new Dictionary<Enums.TileState, Color>(4)
         {
-            { Enums.TileState.Base, new Color(0.7269046f, 0.9339623f, 0.8943226f) },
-            { Enums.TileState.Visited, new Color(8962264f, 0.8135083f, 0.03804733f) },
-            { Enums.TileState.Found, new Color(0f, 1f, 0f) },
-            { Enums.TileState.ToVisit, new Color(1f, 1f, 1f) },
-            { Enums.TileState.ToSearch, new Color(1f, 0f, 0f) },
-            { Enums.TileState.Obstacle, new Color(0f, 0f, 0f) }
+            { Enums.TileState.Base, new Color32(245, 250, 246, 255) },
+            { Enums.TileState.Visited, new Color32(194, 249, 187, 255) },
+            { Enums.TileState.Found, new Color32(98, 195, 112, 255) },
+            { Enums.TileState.ToVisit, new Color32(143, 191, 224, 255) },
+            { Enums.TileState.ToSearch, new Color32(204, 51, 99, 255) },
+            { Enums.TileState.Obstacle, Color.black }
         };
     }
 }

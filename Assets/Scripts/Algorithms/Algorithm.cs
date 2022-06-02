@@ -6,7 +6,7 @@ namespace Assets.Scripts.Algorithms
     abstract class Algorithm : MonoBehaviour
     {
         protected Tile[,] matrix;
-        protected readonly WaitForSeconds wfs = new WaitForSeconds(Constant.animationSeconds);
+        protected readonly WaitForSeconds wfs = new WaitForSeconds(Constant.AnimationSeconds);
         protected readonly short[] rd = new short[4] { -1, +1, 0, 0 };
         protected readonly short[] cd = new short[4] { 0, 0, -1, +1 };
 
