@@ -121,24 +121,29 @@ public class GridComponent : MonoBehaviour
     private void GenerateGrid()
     {
         int id = 0;
+        float xPos = -1;
+        float yPos = -1;
+        float offset = 1.2f;
 
         for (byte x = 0; x < width; x++)
         {
             for (byte y = 0; y < height; y++)
             {
-                Vector3 worldPosition = new Vector3(x, y, 0);
-                Tile spawnedTile = Instantiate(tilePrefab, worldPosition, Quaternion.identity);
+                Tile t = Instantiate(tilePrefab, new Vector3(xPos, yPos, 0), Quaternion.identity);
+                t.name = $"tile: {id}";
+                t.transform.SetParent(transform);
+                t.SetState(Enums.TileState.Base);
+                t.x = x;
+                t.y = y;
+                t.id = id;
 
-                spawnedTile.name = $"tile: {id}";
-                spawnedTile.transform.SetParent(transform);
-                spawnedTile.SetState(Enums.TileState.Base);
-                spawnedTile.x = x;
-                spawnedTile.y = y;
-                spawnedTile.id = id;
-
-                GraphComponent.matrix[x, y] = spawnedTile;
                 id++;
+                yPos += offset;
+                GraphComponent.matrix[t.x, t.y] = t;
             }
+
+            yPos = -1;
+            xPos += offset;
         }
     }
 }

@@ -11,7 +11,6 @@ public class Tile : MonoBehaviour
     private TextMeshPro weightText;
     private Constant constant;
     private GridComponent gridComponent;
-    private Animator animator;
     private int weight = 0;
 
 
@@ -24,7 +23,6 @@ public class Tile : MonoBehaviour
 
         gridComponent = GridComponent.instance;
         constant = new Constant();
-        animator = gameObject.GetComponent<Animator>();
     }
 
     /// <summary>
@@ -65,7 +63,6 @@ public class Tile : MonoBehaviour
     /// <param name="state">The state that the Tile will be set to</param>
     public void SetState(Enums.TileState state)
     {
-        animator.SetTrigger(Constant.StateChangeTrigger);
         spriteRenderer.color = constant.colorsDictionary[state];
         visited = state == Enums.TileState.Visited || state == Enums.TileState.ToVisit;
     }
@@ -79,7 +76,6 @@ public class Tile : MonoBehaviour
         set
         {
             weight = value;
-            weightText.material.color = constant.colorsDictionary[Enums.TileState.Obstacle];
             weightText.text = value.ToString();
         }
     }

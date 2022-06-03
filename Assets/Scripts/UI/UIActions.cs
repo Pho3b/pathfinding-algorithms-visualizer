@@ -61,7 +61,7 @@ public class UIActions : MonoBehaviour
     }
 
     /// <summary> 
-    /// 
+    /// Toggles weighted/unweighted graph
     /// </summary>
     public void ToggleWeightedGraph()
     {
