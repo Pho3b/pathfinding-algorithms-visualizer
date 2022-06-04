@@ -5,7 +5,7 @@ Made with the aim of implementing and experiment with graph algorithms in a envi
 
 
 
-<img src="D:\repos\graph-algorithm-visualizer\Assets\Images\pathfinding-algo-visualizer.gif"
+<img src="https://github.com/Pho3b/graph-algorithms-visualizer/blob/main/Assets/Images/pathfinding-algo-visualizer.gif"
      alt="pathfinding-algo-visualizer"
 />
 
