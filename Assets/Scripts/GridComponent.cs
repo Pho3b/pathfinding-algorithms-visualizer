@@ -123,7 +123,6 @@ public class GridComponent : MonoBehaviour
         int id = 0;
         float xPos = -1;
         float yPos = -1;
-        float offset = 1.2f;
 
         for (byte x = 0; x < width; x++)
         {
@@ -138,12 +137,12 @@ public class GridComponent : MonoBehaviour
                 t.id = id;
 
                 id++;
-                yPos += offset;
+                yPos += Constant.GridTilesOffset;
                 GraphComponent.matrix[t.x, t.y] = t;
             }
 
             yPos = -1;
-            xPos += offset;
+            xPos += Constant.GridTilesOffset;
         }
     }
 }

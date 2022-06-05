@@ -7,6 +7,7 @@ public class Constant
     public const byte DirectionsNumber = 4;
     public const float AnimationSeconds = 0.008f;
     public const string StateChangeTrigger = "StateChangeTrigger";
+    public static float GridTilesOffset = 1.2f;
 
 
     /// <summary>
