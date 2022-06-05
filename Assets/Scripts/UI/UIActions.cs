@@ -5,6 +5,7 @@ public class UIActions : MonoBehaviour
 {
     private GridComponent gridComponent;
     [SerializeField] private Toggle weightToggle;
+    [SerializeField] private Toggle negativeWeightToggle;
 
 
     /// <summary>
@@ -69,11 +70,31 @@ public class UIActions : MonoBehaviour
         {
             if (weightToggle.isOn)
             {
-                gridComponent.AddRandomWeights();
+                gridComponent.AddRandomWeights(negativeWeightToggle.isOn);
             }
             else
             {
                 gridComponent.RemoveWeights();
+            }
+        }
+
+    }
+
+    /// <summary> 
+    /// If the 'weightToggle' is On it toggles the weighted/unweighted graph including negative numbers, otherwise
+    /// it just sets the behaviour that will be applied when the 'weightToggle' will be set to On
+    /// </summary>
+    public void ToggleNegativeWeightedGraph()
+    {
+        if (!GraphComponent.isAlgorithmRunning && GraphComponent.isGraphReady && weightToggle.isOn)
+        {
+            if (negativeWeightToggle.isOn)
+            {
+                gridComponent.AddRandomWeights(true);
+            }
+            else
+            {
+                gridComponent.AddRandomWeights(false);
             }
         }
 

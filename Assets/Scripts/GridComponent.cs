@@ -87,15 +87,19 @@ public class GridComponent : MonoBehaviour
     }
 
     /// <summary>
-    /// Sets the weight of all the current Grid's tiles to a random number between 0 - 100 
+    /// Sets the weight of all the current Grid's tiles to a random number
+    /// Does not include negative numbers.
     /// </summary>
-    public void AddRandomWeights()
+    /// <param name="includeNegativeNumbers">If true the numbers range will be between [-10 to 10] otherwise [0 to 10]</param>
+    public void AddRandomWeights(bool includeNegativeNumbers = false)
     {
+        int min = includeNegativeNumbers ? -10 : 0;
+
         for (byte x = 0; x < width; x++)
         {
             for (byte y = 0; y < height; y++)
             {
-                GraphComponent.matrix[x, y].Weight = Random.Range(0, 10);
+                GraphComponent.matrix[x, y].Weight = Random.Range(min, 10);
             }
         }
     }
