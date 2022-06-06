@@ -80,18 +80,5 @@ namespace Assets.Scripts.Algorithms
                 }
             }
         }
-
-        /// <summary>
-        /// Fills the given array with the given 'fillValue'
-        /// </summary>
-        /// <param name="toFill">The array to fill</param>
-        /// <param name="fillValue">The value that will fill the array</param>
-        protected void FillArray(int[] toFill, int fillValue)
-        {
-            for (int i = 0; i < toFill.Length; i++)
-            {
-                toFill[i] = fillValue;
-            }
-        }
     }
 }

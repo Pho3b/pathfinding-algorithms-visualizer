@@ -22,5 +22,6 @@
         BreadthFirstSearch,
         DjikstraAlgorithm,
         AStarAlgorithm,
+        BellmanFordAlgorithm,
     }
 }

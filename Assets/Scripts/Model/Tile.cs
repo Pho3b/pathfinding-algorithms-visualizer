@@ -68,6 +68,14 @@ public class Tile : MonoBehaviour
     }
 
     /// <summary>
+    /// todo
+    /// </summary>
+    public void SetRandomColor()
+    {
+        spriteRenderer.color = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
+    }
+
+    /// <summary>
     /// Getter and Setter for the 'matrix' attribute
     /// </summary>
     public int Weight

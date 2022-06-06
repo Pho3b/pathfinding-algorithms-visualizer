@@ -56,6 +56,12 @@ public class GraphComponent : MonoBehaviour
                 if (currentAlgorithm == null)
                     currentAlgorithm = gameObject.AddComponent<AStarAlgorithm>();
                 break;
+            case Enums.Algorithm.BellmanFordAlgorithm:
+                currentAlgorithm = gameObject.GetComponent<BellmanFordAlgorithm>();
+
+                if (currentAlgorithm == null)
+                    currentAlgorithm = gameObject.AddComponent<BellmanFordAlgorithm>();
+                break;
             default:
                 Debug.Log("The given Algorithm was not found");
                 break;

@@ -61,6 +61,15 @@ public class UIActions : MonoBehaviour
             gridComponent.RunAlgorithm(Enums.Algorithm.AStarAlgorithm);
     }
 
+        /// <summary>
+    /// Cheks if any algorithm is already running, if not, it calls the method to start the 'BellmanFord Algorithm'
+    /// </summary>
+    public void StartBellmanFordAlgorithmh()
+    {
+        if (!GraphComponent.isAlgorithmRunning && GraphComponent.isGraphReady)
+            gridComponent.RunAlgorithm(Enums.Algorithm.BellmanFordAlgorithm);
+    }
+
     /// <summary> 
     /// Toggles weighted/unweighted graph
     /// </summary>
