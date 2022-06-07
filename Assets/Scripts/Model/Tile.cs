@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 using TMPro;
+using System.Collections.Generic;
 
 public class Tile : MonoBehaviour
 {
@@ -68,11 +69,16 @@ public class Tile : MonoBehaviour
     }
 
     /// <summary>
-    /// todo
+    /// Highlights the current tile for the given time in seconds
+    /// Default time is set to 1 second
     /// </summary>
-    public void SetRandomColor()
+    public IEnumerator<WaitForSeconds> Highlight(float seconds = 1f)
     {
         spriteRenderer.color = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
+
+        yield return new WaitForSeconds(seconds);
+
+        spriteRenderer.color = constant.colorsDictionary[Enums.TileState.Base];
     }
 
     /// <summary>
