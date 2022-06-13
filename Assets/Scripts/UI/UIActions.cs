@@ -22,7 +22,9 @@ public class UIActions : MonoBehaviour
     public void ResetButtonOnClick()
     {
         if (!GraphComponent.isAlgorithmRunning)
-            gridComponent.ResetGrid();
+        {
+            gridComponent.ResetGrid(new Toggle[] { weightToggle, negativeWeightToggle });
+        }
     }
 
     /// <summary>
@@ -61,7 +63,7 @@ public class UIActions : MonoBehaviour
             gridComponent.RunAlgorithm(Enums.Algorithm.AStarAlgorithm);
     }
 
-        /// <summary>
+    /// <summary>
     /// Cheks if any algorithm is already running, if not, it calls the method to start the 'BellmanFord Algorithm'
     /// </summary>
     public void StartBellmanFordAlgorithmh()

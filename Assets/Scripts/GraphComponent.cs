@@ -83,6 +83,7 @@ public class GraphComponent : MonoBehaviour
                 Tile t = matrix[x, y];
                 t.SetState(Enums.TileState.Base);
                 t.isObstacle = false;
+                t.Weight = 0;
             }
         }
 

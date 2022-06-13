@@ -75,7 +75,7 @@ public class Tile : MonoBehaviour
     public IEnumerator<WaitForSeconds> Highlight(float seconds = 1f)
     {
         spriteRenderer.color = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
-
+        
         yield return new WaitForSeconds(seconds);
 
         spriteRenderer.color = constant.colorsDictionary[Enums.TileState.Base];

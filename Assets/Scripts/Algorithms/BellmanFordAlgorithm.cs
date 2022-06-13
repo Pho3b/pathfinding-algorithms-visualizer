@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.Scripts.Algorithms
 {
     class BellmanFordAlgorithm : Algorithm
     {
-        private readonly WaitForSeconds bellmanFordWfs = new WaitForSeconds(0.000001f);
+        private static readonly float seconds = 0.00001f;
+        private readonly WaitForSeconds bellmanFordWfs = new WaitForSeconds(seconds);
         private bool areAllEdgesRelaxed, negativeCycleExist = false;
 
 
@@ -17,7 +17,6 @@ namespace Assets.Scripts.Algorithms
             FillArray(dist, int.MaxValue);
             dist[from.id] = 0;
             int v = 1;
-
 
             // Relaxing all edges
             while (v < matrix.Length && !areAllEdgesRelaxed)
@@ -31,7 +30,9 @@ namespace Assets.Scripts.Algorithms
                         Tile t = matrix[i, j];
 
                         if (!t.isObstacle)
+                        {
                             StartCoroutine(ParseAdjacentTiles(t, parent, dist));
+                        }
                     }
                 }
 
@@ -40,27 +41,33 @@ namespace Assets.Scripts.Algorithms
 
             // Checking for negative cycles
             for (int i = 0; i < matrix.GetLength(0); i++)
+            {
+                for (int j = 0; j < matrix.GetLength(1); j++)
                 {
-                    for (int j = 0; j < matrix.GetLength(1); j++)
-                    {
-                        StartCoroutine(ParseAdjacentTiles(matrix[i, j], parent, dist, true));
+                    Tile t = matrix[i, j];
 
-                        if (negativeCycleExist) break;
-                    }
+                    if (!t.isObstacle)
+                        StartCoroutine(ParseAdjacentTiles(t, parent, dist, true));
 
-                    if (negativeCycleExist) break;
+                    if (negativeCycleExist)
+                        break;
                 }
 
-            yield return bellmanFordWfs;
+                if (negativeCycleExist)
+                    break;
+            }
 
             if (!negativeCycleExist)
             {
                 StartCoroutine(HighlightShortestPath(parent, to));
             }
             else
-                print("Error: Negative Cycle Exists");
+            {
+                print("Negative Cycle Exists");
+            }
 
-            GraphComponent.isAlgorithmRunning = false;
+            ResetAlgorithmAttributes();
+            yield return null;
         }
 
         /// <summary>
@@ -80,10 +87,21 @@ namespace Assets.Scripts.Algorithms
             for (byte i = 0; i < Constant.DirectionsNumber; i++)
             {
                 Tile tile = RetrieveAdjacentTile(from.x + rd[i], from.y + cd[i]);
-                if (tile == null) 
+
+                if (tile == null)
                     continue;
 
-                int newDist = dist[from.id] + tile.Weight;
+                // Computing new distance/weight and checking for integer overflows
+                int newDist;
+
+                try
+                {
+                    newDist = checked(dist[from.id] + tile.Weight);
+                }
+                catch (System.OverflowException)
+                {
+                    newDist = int.MaxValue;
+                }
 
                 if (newDist < dist[tile.id])
                 {
@@ -91,8 +109,6 @@ namespace Assets.Scripts.Algorithms
                     {
                         areAllEdgesRelaxed = false;
                         dist[tile.id] = newDist;
-                        // StartCoroutine(tile.Highlight(0.1f));
-
                         parent[tile.id] = from;
 
                         yield return bellmanFordWfs;
@@ -104,6 +120,16 @@ namespace Assets.Scripts.Algorithms
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Resets instante Algorithm attributes to default values
+        /// </summary>
+        private void ResetAlgorithmAttributes()
+        {
+            GraphComponent.isAlgorithmRunning = false;
+            areAllEdgesRelaxed = false;
+            negativeCycleExist = false;
         }
     }
 }
