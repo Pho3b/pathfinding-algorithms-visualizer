@@ -17,5 +17,6 @@ Made with the aim of implementing and experiment with graph algorithms in a envi
     <li>Breadth First Search</li>
     <li>Djikstra</li>
     <li>A*</li>
+    <li>Bellman Ford</li>
 </ul>
 
