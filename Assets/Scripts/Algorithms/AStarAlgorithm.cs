@@ -5,6 +5,13 @@ using Assets.Scripts.Model;
 
 namespace Assets.Scripts.Algorithms
 {
+    /// <summary>
+    /// Performs The A* Algorithm on the current matrix(graph)
+    /// If the 'to' vertex is given, the search will stop as soon as it will find it
+    /// </summary>
+    /// <param name="from">Starting vertex of the search</param>
+    /// <param name="to"> Optional ending vertex of the search</param>
+    /// <returns></returns>
     class AStarAlgorithm : Algorithm
     {
         public override IEnumerator<WaitForSeconds> Run(Tile from, Tile to = null)

@@ -5,38 +5,29 @@ namespace Assets.Scripts.Algorithms
 {
     class BellmanFordAlgorithm : Algorithm
     {
+        /// <summary>
+        /// Performs The Bellman Ford Algorithm on the current matrix(graph)
+        /// </summary>
+        /// <param name="from">Starting vertex of the search</param>
+        /// <param name="to"> Optional ending vertex of the search</param>
+        /// <returns></returns>
         public override IEnumerator<WaitForSeconds> Run(Tile from, Tile to = null)
         {
             Dictionary<int, Tile> parent = new Dictionary<int, Tile>();
             int[] dist = new int[matrix.Length];
             FillArray(dist, int.MaxValue);
             dist[from.id] = 0;
-            int v = 1;
 
-            // Relaxing all edges (V - 1) times
-            while (v < matrix.Length)
+            RelaxEdges(parent, dist);
+
+            if (!DoNegativeCyclesExist(parent, dist))
             {
-                for (int i = 0; i < matrix.GetLength(0); i++)
-                {
-                    for (int j = 0; j < matrix.GetLength(1); j++)
-                    {
-                        Tile t = matrix[i, j];
-
-                        if (!t.isObstacle)
-                            StartCoroutine(ParseAdjacentTiles(t, parent, dist));
-                    }
-                }
-
-                v++;
-            }
-
-            if (CheckForNegativeCycles(parent, dist))
-            {
-                print("Negative Cycle Exists");
+                if (to != null)
+                    StartCoroutine(HighlightShortestPath(parent, to));
             }
             else
             {
-                StartCoroutine(HighlightShortestPath(parent, to));
+                print("A Negative cycle has been found, it's not possible to compute the shortest path");
             }
 
             GraphComponent.isAlgorithmRunning = false;
@@ -48,9 +39,8 @@ namespace Assets.Scripts.Algorithms
         /// </summary>
         /// <param name="from">The tile that is currently being parsed(vertex)</param>
         /// <param name="parent">The dictionary holding the parent reference for every tile, useful to reconstruct the shortest path</param>
-        /// <param name="dist">The array holding the shortest distance for every node in the graph</param>
-        /// <returns>The current instance 'wfs' coroutine attribute when a tile is added to the queue</returns>
-        private IEnumerator<WaitForSeconds> ParseAdjacentTiles(Tile from, Dictionary<int, Tile> parent, int[] dist)
+        /// <param name="dist">The array holding the shortest distance from the starting node to every other nodes in the graph</param>
+        private void ParseAdjacentTiles(Tile from, Dictionary<int, Tile> parent, int[] dist)
         {
             for (byte i = 0; i < Constant.DirectionsNumber; i++)
             {
@@ -64,19 +54,17 @@ namespace Assets.Scripts.Algorithms
                 {
                     dist[tile.id] = newDist;
                     parent[tile.id] = from;
-
-                    yield return null;
                 }
             }
         }
 
         /// <summary>
-        /// Executes the Bellman ford algorithm one time in order to detect the existance of negative cycles
+        /// Executes one iteration of the the Bellman ford algorithm in order to detect the existance of negative cycles
         /// </summary>
         /// <param name="parent">The dictionary holding the parent reference for every tile, useful to reconstruct the shortest path</param>
         /// <param name="dist">The array holding the shortest distance for every node in the graph</param>
         /// <returns>Whether the current graph contains negative cycles or not</returns>
-        private bool CheckForNegativeCycles(Dictionary<int, Tile> parent, int[] dist)
+        private bool DoNegativeCyclesExist(Dictionary<int, Tile> parent, int[] dist)
         {
             for (int i = 0; i < matrix.GetLength(0); i++)
             {
@@ -119,6 +107,32 @@ namespace Assets.Scripts.Algorithms
             catch (System.OverflowException)
             {
                 return int.MaxValue;
+            }
+        }
+
+        /// <summary>
+        /// Relaxes all edges V - 1 times where V is the number of vertices in the Graph
+        /// </summary>
+        /// <param name="parent">The dictionary holding the parent reference for every tile, useful to reconstruct the shortest path</param>
+        /// <param name="dist">The array holding the shortest distance for every node in the graph</param>
+        private void RelaxEdges(Dictionary<int, Tile> parent, int[] dist)
+        {
+            int v = 1;
+
+            while (v < matrix.Length)
+            {
+                for (int i = 0; i < matrix.GetLength(0); i++)
+                {
+                    for (int j = 0; j < matrix.GetLength(1); j++)
+                    {
+                        Tile t = matrix[i, j];
+
+                        if (!t.isObstacle)
+                            ParseAdjacentTiles(t, parent, dist);
+                    }
+                }
+
+                v++;
             }
         }
     }
