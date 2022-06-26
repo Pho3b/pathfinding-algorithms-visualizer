@@ -6,6 +6,7 @@ public class Constant
     public Dictionary<Enums.TileState, Color> colorsDictionary;
     public const byte DirectionsNumber = 4;
     public const float AnimationSeconds = 0.008f;
+    public const float FastAnimationSeconds = 0.0005f;
     public const string StateChangeTrigger = "StateChangeTrigger";
     public static float GridTilesOffset = 1.2f;
 

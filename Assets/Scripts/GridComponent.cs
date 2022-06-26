@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class GridComponent : MonoBehaviour
@@ -98,16 +97,16 @@ public class GridComponent : MonoBehaviour
     /// Sets the weight of all the current Grid's tiles to a random number
     /// Does not include negative numbers.
     /// </summary>
-    /// <param name="includeNegativeNumbers">If true the numbers range will be between [-2 to 10] otherwise [0 to 10]</param>
+    /// <param name="includeNegativeNumbers">If true the numbers range will be between [-5 to 100] otherwise [0 to 100]</param>
     public void AddRandomWeights(bool includeNegativeNumbers = false)
     {
-        int min = includeNegativeNumbers ? -2 : 0;
+        int min = includeNegativeNumbers ? -5 : 0;
 
         for (byte x = 0; x < width; x++)
         {
             for (byte y = 0; y < height; y++)
             {
-                GraphComponent.matrix[x, y].Weight = UnityEngine.Random.Range(min, 10);
+                GraphComponent.matrix[x, y].Weight = Random.Range(min, 100);
             }
         }
     }

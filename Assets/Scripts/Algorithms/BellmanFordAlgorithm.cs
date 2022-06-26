@@ -6,6 +6,14 @@ namespace Assets.Scripts.Algorithms
     class BellmanFordAlgorithm : Algorithm
     {
         /// <summary>
+        /// Default Constructor
+        /// </summary>
+        BellmanFordAlgorithm()
+        {
+            wfs = new WaitForSeconds(Constant.FastAnimationSeconds);
+        }
+
+        /// <summary>
         /// Performs The Bellman Ford Algorithm on the current matrix(graph)
         /// </summary>
         /// <param name="from">Starting vertex of the search</param>
@@ -13,6 +21,9 @@ namespace Assets.Scripts.Algorithms
         /// <returns></returns>
         public override IEnumerator<WaitForSeconds> Run(Tile from, Tile to = null)
         {
+            // Computing the sub matrix where the algorithm will be applied (if necessary)
+            ComputeValidSubMatrix(from);
+
             Dictionary<int, Tile> parent = new Dictionary<int, Tile>();
             int[] dist = new int[matrix.Length];
             FillArray(dist, int.MaxValue);
@@ -133,6 +144,60 @@ namespace Assets.Scripts.Algorithms
                 }
 
                 v++;
+            }
+        }
+
+        /// <summary>
+        /// Computes a new sub matrix starting from the default one in order to perform the Bellman Ford Algorithm only on the correct portion
+        /// of the graph, this is done in order to avoid detecting false negative cycles.
+        /// Tiles that are found to be outside of the starting tile sub-matrix will be signed as obstacles so that they won't be calculated by the algorithm.
+        /// </summary>
+        private void ComputeValidSubMatrix(Tile startingTile)
+        {
+            Stack<Tile> stack = new Stack<Tile>();
+            HashSet<int> validTiles = new HashSet<int>();
+            stack.Push(startingTile);
+
+            // Populating the set with the valid tiles IDs 
+            while (stack.Count > 0)
+            {
+                Tile t = stack.Pop();
+                AddAdjacentTiles(t, stack, validTiles);
+            }
+
+            // Setting non-valid tiles to obstacle in order to avoid calculating them later
+            for (int i = 0; i < matrix.GetLength(0); i++)
+            {
+                for (int j = 0; j < matrix.GetLength(1); j++)
+                {
+                    Tile t = matrix[i, j];
+
+                    if (!validTiles.Contains(t.id) && !t.isObstacle)
+                    {
+                        t.isObstacle = true;
+                        t.SetState(Enums.TileState.Visited);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Cycles over the 4 possibile grid directions and adds the valid tiles to the stack to visit them later.
+        /// </summary>
+        /// <param name="from">The starting tile(vertex)</param>
+        /// <param name="stack">The stack where the Tiles that needs to be visited are stored</param>
+        /// <returns>The current instance 'wfs' attribute when a tile is added to the stack</returns>
+        private void AddAdjacentTiles(Tile from, Stack<Tile> stack, HashSet<int> validTiles)
+        {
+            for (byte i = 0; i < Constant.DirectionsNumber; i++)
+            {
+                Tile t = RetrieveAdjacentTile(from.x + rd[i], from.y + cd[i]);
+
+                if (t != null && !validTiles.Contains(t.id))
+                {
+                    stack.Push(t);
+                    validTiles.Add(t.id);
+                }
             }
         }
     }
