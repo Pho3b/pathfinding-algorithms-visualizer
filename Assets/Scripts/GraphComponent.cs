@@ -19,7 +19,7 @@ public class GraphComponent : MonoBehaviour
 
     /// <summary>
     /// Instantiate the concrete class to run the given algorithm if found,
-    /// it also handles the state of some class static attributes to indicate that and algorithm is running.
+    /// it also handles the state of some class static attributes to indicate that an algorithm is running.
     /// </summary>
     /// <param name="algorithm">The algorithm to run</param>
     /// <param name="from">Starting tile</param>
