@@ -43,7 +43,7 @@ public class GridComponent : MonoBehaviour
     }
 
     /// <summary>
-    /// Resets the UI grid and triggers the method to also rest the underlying 'matrix' data structure
+    /// Resets the UI grid and the underlying 'matrix' to their default states
     /// <param name="uiToggles">List of toggles that will be set to 'false', null by default</param>
     /// </summary>
     public void ResetGrid(Toggle[] uiToggles = null)

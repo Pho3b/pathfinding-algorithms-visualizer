@@ -1,7 +1,7 @@
 ﻿public class Enums
 {
     /// <summary>
-    /// Enumerator representing an eloquent reference to the basic possible Tile states.
+    /// Enumerator representing possible Tile states.
     /// </summary>
     public enum TileState
     {
@@ -14,7 +14,7 @@
     }
 
     /// <summary>
-    /// Supported algorithms enumerator
+    /// Enumerator representing supported algorithms
     /// </summary>
     public enum Algorithm
     {
