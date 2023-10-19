@@ -5,7 +5,7 @@ Made with the aim of implementing and experiment with graph algorithms in a envi
 
 <p align="center">
      <img src="https://user-images.githubusercontent.com/17745398/174410216-b56e611d-4eeb-43b5-a493-ce01b8df8e8e.gif" 
-          alt="pathfinding-algo-visualizer" width="850" height="450" />
+          alt="pathfinding-algo-visualizer" width="95%" height="auto" />
 </p>
 
 <br>
